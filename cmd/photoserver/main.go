@@ -22,6 +22,8 @@ func main() {
 	log.Printf("Folgende Parameter werden verwendet: Port: " + strconv.Itoa(*port) + " Certificates: " + *certificates + " Data: " + *data)
 	log.Println()
 
+	packageHandler.InitTemplate()
+
 	http.HandleFunc("/", packageHandler.IndexHandler)
 	http.HandleFunc("/login", packageHandler.LoginHandler)
 	http.HandleFunc("/register", packageHandler.RegisterHandler)
