@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Photo-Server</title>
+    <meta charset="UTF-8"/>
+
+    <style>
+        body {
+            margin: 0;
+        }
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #555555;
+        }
+        li a {
+            display: block;
+            color: #ffffff;
+            text-align: center;
+            padding: 10px 20px;
+            text-decoration: none;
+        }
+        li a:hover {
+            background-color: #444444;
+        }
+
+        .right {
+            float: right;
+        }
+        .left {
+            float: left;
+        }
+    </style>
+</head>
+<body>
+<ul>
+    <li><a class="left" href="/">HOME</a></li>
+    <li><a class="left" href="/upload">UPLOAD</a></li>
+    <li><a class="left" href="/order">ORDERS</a></li>
+
+    {{ if .CurrentUser }}
+    <li><a class="right" href="/my">{{ .CurrentUser }}</a></li>
+    {{ else }}
+    <li><a class="right" href="/login">LOGIN</a></li>
+    {{ end }}
+</ul>
+</body>
+</html>
