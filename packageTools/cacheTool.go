@@ -1,6 +1,7 @@
 package packageTools
 
-// Qnode ...
+var cache *LRUCache
+
 type Qnode struct {
 	key int
 	value string
@@ -108,3 +109,19 @@ func (lru *LRUCache) Put(key int, value string) {
 	lru.pageMap[key] = page
 }
 
+func InitCache(capacity int) *LRUCache {
+	var cacheLRU LRUCache
+	cacheLRU.InitLru(capacity)
+
+	cache = &cacheLRU
+
+	return cache
+}
+
+func GetGlobalCache() *LRUCache {
+	if cache == nil {
+		InitCache(40)
+	}
+
+	return cache
+}
