@@ -1,8 +1,39 @@
 package packageHandler
 
-import "net/http"
+import (
+	"log"
+	"net/http"
+)
 
 func LoginHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "text/html")
 
-	http.ServeFile(w, r, "static/login.html")
+	NavBarData.CurrentPage = "login"
+
+	if r.Method == "GET" {
+		err := NavTemplate.Execute(w, NavBarData)
+		err = LoginTemplate.Execute(w, nil)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+		}
+	} else if r.Method == "POST" {
+		if err := r.ParseForm(); err != nil {
+			log.Fatalln(err)
+			return
+		}
+		username := r.FormValue("username")
+		password := r.FormValue("password")
+		log.Println("username:", username, "password:", password)
+
+		NavBarData.CurrentUser = username
+		err := NavTemplate.Execute(w, NavBarData)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+		}
+		responseString := "<html><body>Successfully logged in as " + username + "</body></html>"
+		_, err = w.Write([]byte(responseString))
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+		}
+	}
 }
