@@ -9,13 +9,52 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"photoserver/packageTools"
 )
 
-type photo struct {
-	name string
-	data string
-	exifTaken string
+type Photo struct {
+	Name string `json:name`
+	userID int `json:userID`
+	Encoded string `json:encoded`
+	exifDate string `json:exifDate`
 }
+
+func addNewPhotoToDB(name string, userid int, encoded string, exifdate string) *Photo {
+	photo := Photo{
+		Name: name,
+		userID: userid,
+		Encoded: encoded,
+		exifDate: exifdate,
+	}
+
+
+
+
+	return &photo
+}
+
+func GetPhotoByID(id int) {
+	lruCache := packageTools.GetGlobalCache()
+	var cache = *lruCache
+
+	encoded := cache.Get(id)
+
+	if encoded == "" {
+		log.Println(encoded)
+
+		encoded = getPhotoByIDDB(id)
+	}
+
+	// todo: load other info from json file an
+
+	log.Println(encoded)
+}
+
+func getPhotoByIDDB(id int) string {
+	return "not implemented"
+}
+
+
 
 // https://www.sanarias.com/blog/1214PlayingwithimagesinHTTPresponseingolang
 

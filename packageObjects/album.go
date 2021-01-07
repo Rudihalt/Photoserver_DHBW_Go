@@ -1,5 +1,6 @@
 package packageObjects
 
-type album struct {
-
+type Album struct {
+	Name string "json:name"
+	Photos []Photo "json:photos"
 }
