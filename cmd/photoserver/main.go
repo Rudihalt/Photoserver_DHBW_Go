@@ -33,6 +33,7 @@ func main() {
 	http.HandleFunc("/diashow", packageHandler.DiashowHandler)
 	http.HandleFunc("/test", packageHandler.TestHandler)
 	http.HandleFunc("/upload", packageHandler.UploadHandler)
+	http.HandleFunc("/up", packageHandler.UpHandler)
 
 	http.HandleFunc("/api", packageHandler.RESTHandler)
 
