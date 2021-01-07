@@ -9,12 +9,14 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"photoserver/packageTools"
 )
 
-type photo struct {
-	name string
-	data string
-	exifTaken string
+type Photo struct {
+	Name string `json:name`
+	userID int `json:userID`
+	Encoded string `json:encoded`
+	exifDate string `json:exifDate`
 }
 
 // https://www.sanarias.com/blog/1214PlayingwithimagesinHTTPresponseingolang
