@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
+	"photoserver/packageTools"
 	"regexp"
 )
 
@@ -10,6 +11,19 @@ func main() {
 	fmt.Println(ReadExifFromFile("static/images/p2.jpg"))
 	fmt.Println(GetDateObjectFromString(ReadExifFromFile("static/images/p2.jpg")).Minute)
 
+
+	var cache packageTools.LRUCache
+	cache.InitLru(2)
+	cache.Put(2, "a")
+	fmt.Println(cache.Get(2))
+	fmt.Println(cache.Get(1))
+	cache.Put(1, "b")
+	cache.Put(1, "c")
+	fmt.Println(cache.Get(1))
+	fmt.Println(cache.Get(2))
+	cache.Put(8, "d")
+	fmt.Println(cache.Get(1))
+	fmt.Println(cache.Get(8))
 }
 
 type Date struct {
