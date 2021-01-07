@@ -12,7 +12,9 @@ func main() {
 	fmt.Println(GetDateObjectFromString(ReadExifFromFile("static/images/p2.jpg")).Minute)
 
 
-	var cache packageTools.LRUCache
+	packageTools.InitCache(2)
+	cache := *packageTools.GetGlobalCache()
+
 	cache.InitLru(2)
 	cache.Put(2, "a")
 	fmt.Println(cache.Get(2))
@@ -24,6 +26,8 @@ func main() {
 	cache.Put(8, "d")
 	fmt.Println(cache.Get(1))
 	fmt.Println(cache.Get(8))
+
+
 }
 
 type Date struct {
