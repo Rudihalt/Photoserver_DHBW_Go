@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        form {
+            margin: 0 20%;
+            border: 5px solid #eeeeee;
+        }
+        input {
+            width: 100%;
+            padding: 10px 20px;
+            margin: 10px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #555555;
+            color: white;
+            padding: 15px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #444444;
+        }
+
+        .container {
+            padding: 20px;
+        }
+        span.register {
+            width: auto;
+            padding: 10px 20px;
+        }
+    </style>
+</head>
+<body>
+<form action="/login" method="post">
+
+    <div class="container">
+        <label for="username"><b>Username</b></label>
+        <input type="text" placeholder="Enter Username" name="username" required>
+
+        <label for="password"><b>Password</b></label>
+        <input type="password" placeholder="Enter Password" name="password" required>
+
+        <button type="submit">Login</button>
+    </div>
+
+    <div class="container" style="background-color:#f1f1f1">
+        <span class="register">Not yet <a href="/register">registered?</a></span>
+    </div>
+</form>
+</body>
+</html>

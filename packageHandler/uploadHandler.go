@@ -1,14 +1,16 @@
 package packageHandler
 
-import "net/http"
+import (
+	"net/http"
+)
 
-func RegisterHandler(w http.ResponseWriter, r *http.Request) {
+func UploadHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
 
-	NavBarData.CurrentPage = "register"
+	NavBarData.CurrentPage = "upload"
 
 	err := NavTemplate.Execute(w, NavBarData)
-	err = RegisterTemplate.Execute(w, nil)
+	err = UploadTemplate.Execute(w, nil)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
