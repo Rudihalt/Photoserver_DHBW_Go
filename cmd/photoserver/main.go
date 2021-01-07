@@ -22,6 +22,8 @@ func main() {
 	log.Printf("Folgende Parameter werden verwendet: Port: " + strconv.Itoa(*port) + " Certificates: " + *certificates + " Data: " + *data)
 	log.Println()
 
+	packageHandler.InitNavBar()
+	packageHandler.InitTemplates()
 	packageHandler.InitTemplate()
 
 	http.HandleFunc("/", packageHandler.IndexHandler)
@@ -30,6 +32,7 @@ func main() {
 	http.HandleFunc("/my", packageHandler.MyHandler)
 	http.HandleFunc("/diashow", packageHandler.DiashowHandler)
 	http.HandleFunc("/test", packageHandler.TestHandler)
+	http.HandleFunc("/upload", packageHandler.UploadHandler)
 
 	http.HandleFunc("/api", packageHandler.RESTHandler)
 
@@ -39,6 +42,6 @@ func main() {
 	// https://serverfault.com/questions/366372/is-it-possible-to-generate-rsa-key-without-pass-phrase
 	// No Passphrase for testing project. Use -nodes for no DES encryption for private key
 	// Result Command: openssl req -nodes -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365
-	log.Fatalln(http.ListenAndServeTLS(":" + strconv.Itoa(*port), *certificates + "/cert.pem", *certificates + "/key.pem", nil))
+	log.Fatalln(http.ListenAndServeTLS(":"+strconv.Itoa(*port), *certificates+"/cert.pem", *certificates+"/key.pem", nil))
 
 }
