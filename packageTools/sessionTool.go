@@ -4,6 +4,7 @@ import (
 	"crypto/sha256"
 	"encoding/hex"
 	"math/rand"
+	"strconv"
 	"time"
 )
 
@@ -14,7 +15,7 @@ import (
 type User struct {
 	Username string
 	Password string
-	Salt string
+	Salt     string
 }
 
 func HashSHA(str string) string {
@@ -31,7 +32,7 @@ func HashSHA(str string) string {
 func CreateSalt() string {
 	rand.Seed(time.Now().UnixNano())
 	var randInt = rand.Intn(10000000)
-	var strRandInd = string(randInt)
+	var strRandInd = strconv.Itoa(randInt)
 	var salt = HashSHA(strRandInd)[0:8]
 
 	return salt
@@ -40,7 +41,7 @@ func CreateSalt() string {
 func GetUser(username string) User {
 	return User{
 		Username: "User",
-		Salt: "SALT",
+		Salt:     "SALT",
 		Password: "123456",
 	}
 }
