@@ -6,22 +6,10 @@ import (
 	"net/http"
 )
 
-var NavBarData NavBar
-
 var NavTemplate *template.Template
 var LoginTemplate *template.Template
 var RegisterTemplate *template.Template
 var UploadTemplate *template.Template
-
-type NavBar struct {
-	CurrentUser string
-	CurrentPage string
-}
-
-func InitNavBar() {
-	NavBarData.CurrentPage = "/"
-	NavBarData.CurrentUser = "Peter"
-}
 
 func InitTemplates() {
 	var err error

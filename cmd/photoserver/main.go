@@ -22,7 +22,6 @@ func main() {
 	log.Printf("Folgende Parameter werden verwendet: Port: " + strconv.Itoa(*port) + " Certificates: " + *certificates + " Data: " + *data)
 	log.Println()
 
-	packageHandler.InitNavBar()
 	packageHandler.InitTemplates()
 	packageHandler.InitTemplate()
 

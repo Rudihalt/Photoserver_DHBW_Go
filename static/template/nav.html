@@ -6,23 +6,26 @@
 
     <style>
         body {
+            font-family: Arial, Helvetica, sans-serif;
             margin: 0;
         }
-        ul {
+        ul.nav {
             list-style-type: none;
             margin: 0;
             padding: 0;
             overflow: hidden;
             background-color: #555555;
         }
-        li a {
+
+        ul.nav li a {
+            font-weight: bold;
             display: block;
             color: #ffffff;
             text-align: center;
             padding: 10px 20px;
             text-decoration: none;
         }
-        li a:hover {
+        ul.nav li a:hover {
             background-color: #444444;
         }
 
@@ -35,16 +38,12 @@
     </style>
 </head>
 <body>
-<ul>
+<ul class="nav">
     <li><a class="left" href="/">HOME</a></li>
     <li><a class="left" href="/upload">UPLOAD</a></li>
     <li><a class="left" href="/order">ORDERS</a></li>
 
-    {{ if .CurrentUser }}
-    <li><a class="right" href="/my">{{ .CurrentUser }}</a></li>
-    {{ else }}
     <li><a class="right" href="/login">LOGIN</a></li>
-    {{ end }}
 </ul>
 </body>
 </html>
