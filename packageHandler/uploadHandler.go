@@ -7,9 +7,7 @@ import (
 func UploadHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
 
-	NavBarData.CurrentPage = "upload"
-
-	err := NavTemplate.Execute(w, NavBarData)
+	err := NavTemplate.Execute(w, nil)
 	err = UploadTemplate.Execute(w, nil)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)

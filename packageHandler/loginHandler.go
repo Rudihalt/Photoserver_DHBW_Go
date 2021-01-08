@@ -8,10 +8,8 @@ import (
 func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
 
-	NavBarData.CurrentPage = "login"
-
 	if r.Method == "GET" {
-		err := NavTemplate.Execute(w, NavBarData)
+		err := NavTemplate.Execute(w, nil)
 		err = LoginTemplate.Execute(w, nil)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -25,13 +23,8 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 		password := r.FormValue("password")
 		log.Println("username:", username, "password:", password)
 
-		NavBarData.CurrentUser = username
-		err := NavTemplate.Execute(w, NavBarData)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-		}
 		responseString := "<html><body>Successfully logged in as " + username + "</body></html>"
-		_, err = w.Write([]byte(responseString))
+		_, err := w.Write([]byte(responseString))
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
