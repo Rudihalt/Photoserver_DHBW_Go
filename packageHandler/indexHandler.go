@@ -12,6 +12,8 @@ var NavTemplate *template.Template
 var LoginTemplate *template.Template
 var RegisterTemplate *template.Template
 var UploadTemplate *template.Template
+var GalleryTemplate *template.Template
+
 
 type NavBarData struct {
 	Username string
@@ -23,6 +25,7 @@ func InitTemplates() {
 	LoginTemplate, err = template.ParseFiles("static/template/login.html")
 	RegisterTemplate, err = template.ParseFiles("static/template/register.html")
 	UploadTemplate, err = template.ParseFiles("static/template/upload.html")
+	GalleryTemplate, err = template.ParseFiles("static/template/paging.html")
 	if err != nil {
 		log.Fatalln(err)
 	}
