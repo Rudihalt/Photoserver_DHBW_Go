@@ -3,9 +3,11 @@ package packageObjects
 import (
 	"bytes"
 	"encoding/base64"
+	"encoding/json"
 	"html/template"
 	"image"
 	"image/jpeg"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
@@ -13,25 +15,59 @@ import (
 )
 
 type Photo struct {
-	Name string `json:name`
-	userID int `json:userID`
-	Encoded string `json:encoded`
-	exifDate string `json:exifDate`
+	Name     string `json:"name"`
+	Username string `json:"username"`
+	Hash     string `json:"hash"`
+	Encoded  string `json:encoded`
+	exifDate string `json:exifdate`
 }
 
-func addNewPhotoToDB(name string, userid int, encoded string, exifdate string) *Photo {
-	photo := Photo{
-		Name: name,
-		userID: userid,
-		Encoded: encoded,
-		exifDate: exifdate,
+func GetPhotoByHash(hash string) *Photo {
+	var photo Photo
+	photoFile, err := ioutil.ReadFile("static/data/photo_" + hash + ".json")
+
+	if err != nil {
+		panic(err)
 	}
 
-
-
+	err = json.Unmarshal(photoFile, &photo)
+	if err != nil {
+		panic(err)
+	}
 
 	return &photo
 }
+
+func SavePhoto(name string, username string, encoded string, exifdate string) *Photo {
+	hash := packageTools.HashSHA(encoded)
+
+	if _, err := os.Stat("static/data/photo_" + hash + ".json"); os.IsNotExist(err) == false {
+		return nil
+	}
+
+	photo := Photo{
+		Name:     name,
+		Username: username,
+		Hash:     hash,
+		Encoded:  encoded,
+		exifDate: exifdate,
+	}
+
+	photoJson, err := json.MarshalIndent(photo, "", "\t")
+	if err != nil {
+		panic(err)
+	}
+
+	err = ioutil.WriteFile("static/data/photo_"+hash+".json", photoJson, 0644)
+	if err != nil {
+		panic(err)
+	}
+
+	addPhotoToUser(username, hash)
+
+	return &photo
+}
+
 
 func GetPhotoByID(id int) {
 	lruCache := packageTools.GetGlobalCache()
@@ -53,7 +89,6 @@ func GetPhotoByID(id int) {
 func getPhotoByIDDB(id int) string {
 	return "not implemented"
 }
-
 
 
 // https://www.sanarias.com/blog/1214PlayingwithimagesinHTTPresponseingolang
@@ -90,7 +125,7 @@ func GetImageByName(fileName string) *image.Image {
 
 	img, fmtName, err := image.Decode(f)
 	if err != nil {
-		// Handle error
+		panic(err)
 	}
 
 	log.Println("fmtName: " + fmtName)
