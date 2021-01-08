@@ -38,6 +38,9 @@ func main() {
 
 	http.HandleFunc("/api", packageHandler.RESTHandler)
 
+	fs := http.FileServer(http.Dir("./static/images"))
+	http.Handle("/images/", http.StripPrefix("/images", fs))
+
 	
 
 	// log.Fatalln(http.ListenAndServe(":8080", nil))
