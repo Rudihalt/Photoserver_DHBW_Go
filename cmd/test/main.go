@@ -18,9 +18,12 @@ import (
 
 func main() {
 
-	t := [...]string{"a", "b", "c"}
+	packageObjects.SavePhoto("p1.jpg", "yannis", "static/images/p1.jpg", "ABCDEF", "2020:10:29 12:45:23")
+	packageObjects.SavePhoto("p1.jpg", "yannis", "static/images/p1.jpg", "ABCDEFG", "2020:10:29 12:45:23")
+	photo := packageObjects.SavePhoto("p1.jpg", "yannis", "static/images/p1.jpg", "ABCDEFGH", "2020:10:29 12:45:23")
 
-	fmt.Println(t[0:4])
+	packageObjects.AddCommentToPhoto("yannis", photo.Hash, "Das ist ein Test")
+
 
 	/*fmt.Println(ReadExifFromFile("static/images/p3.jpg"))
 

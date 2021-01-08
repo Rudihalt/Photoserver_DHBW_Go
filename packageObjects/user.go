@@ -2,7 +2,6 @@ package packageObjects
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"log"
 	"math/rand"
@@ -56,7 +55,7 @@ func saveUsers() {
 func CheckPassword(username string, password string) (bool, string) {
 	readUsers()
 
-	user := getUserByUsername(username)
+	user := GetUserByUsername(username)
 	if user != nil {
 		hashedInputPassword := packageTools.HashSHA(user.Salt + password)
 
@@ -66,18 +65,6 @@ func CheckPassword(username string, password string) (bool, string) {
 	}
 
 	return false, ""
-}
-
-func addPhotoToUser(username string, photoHash string) {
-	user := getUserByUsername(username)
-	userPhotos := user.Photos
-
-	fmt.Println(user.Photos)
-
-	newUserPhotos := append(userPhotos, photoHash)
-	user.Photos = newUserPhotos
-
-	saveUsers()
 }
 
 func CreateUser(username string, password string) *User {
@@ -144,7 +131,7 @@ func GetUserByToken(token string) *User {
 	return nil
 }
 
-func getUserByUsername(username string) *User {
+func GetUserByUsername(username string) *User {
 	for _, user := range *GetAllUsers() {
 		if user.Username == username {
 			return &user

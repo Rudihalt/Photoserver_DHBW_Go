@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/base64"
 	"encoding/json"
+	"fmt"
 	"html/template"
 	"image"
 	"image/jpeg"
@@ -16,7 +17,7 @@ import (
 
 type Photo struct {
 	Name     string `json:"name"`
-	Path     string `json:"name"`
+	Path     string `json:"path"`
 	Hash     string `json:"hash"`
 	Date     string `json:"date"`
 	Comments []Comment `json:"comments"`
@@ -29,16 +30,18 @@ type Comment struct {
 
 func GetAllPhotosByUser(username string) *[]Photo {
 	var photos []Photo
+	var photosFile []byte
+
 	photosFile, err := ioutil.ReadFile("static/data/photos_" + username + ".json")
 
 	if err != nil {
-		panic(err)
+		fmt.Println("Neue Datei anlegen: photos_" + username + ".json")
 	}
 
 	err = json.Unmarshal(photosFile, &photos)
 
 	if err != nil {
-		panic(err)
+		// panic(err)
 	}
 
 	return &photos
@@ -74,10 +77,9 @@ func GetCommentsFromPhoto(photo *Photo) *[]Comment {
 	return &photo.Comments
 }
 
-func GetPhotoByUserAndHash(username string, hash string) *Photo {
-	photos := *GetAllPhotosByUser(username)
+func GetPhotoByUserAndHash(photos *[]Photo, hash string) *Photo {
 
-	for _, photo := range photos {
+	for _, photo := range *photos {
 		if photo.Hash == hash {
 			return &photo
 		}
@@ -88,8 +90,9 @@ func GetPhotoByUserAndHash(username string, hash string) *Photo {
 
 func SavePhoto(name string, username string, path string, encoded string, date string) *Photo {
 	hash := packageTools.HashSHA(encoded)
+	currentPhotos := *GetAllPhotosByUser(username)
 
-	if GetPhotoByUserAndHash(username, hash) != nil {
+	if GetPhotoByUserAndHash(&currentPhotos, hash) != nil {
 		return nil
 	}
 
@@ -100,19 +103,40 @@ func SavePhoto(name string, username string, path string, encoded string, date s
 		Date:     date,
 	}
 
-	photoJson, err := json.MarshalIndent(photo, "", "\t")
-	if err != nil {
-		panic(err)
-	}
+	currentPhotos = append(currentPhotos, photo)
 
-	err = ioutil.WriteFile("static/data/photo_"+hash+".json", photoJson, 0644)
-	if err != nil {
-		panic(err)
-	}
-
-	addPhotoToUser(username, hash)
+	savePhotos(username, &currentPhotos)
 
 	return &photo
+}
+
+func savePhotos(username string, photos *[]Photo) {
+	photoJson, err := json.MarshalIndent(photos, "", "\t")
+	if err != nil {
+		panic(err)
+	}
+
+	err = ioutil.WriteFile("static/data/photos_" + username + ".json", photoJson, 0644)
+	if err != nil {
+		panic(err)
+	}
+}
+
+func AddCommentToPhoto(username string, hash string, comment string) {
+	photos := GetAllPhotosByUser(username)
+	photo := GetPhotoByUserAndHash(photos, hash)
+
+	commentO := Comment{
+		Comment: comment,
+		Date: "heute",
+	}
+
+	currentComments := photo.Comments
+	currentComments = append(currentComments, commentO)
+
+	photo.Comments = currentComments
+
+	savePhotos(username, photos)
 }
 
 
