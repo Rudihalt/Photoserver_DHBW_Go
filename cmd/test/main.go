@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"log"
 	"math/rand"
+	"net/http"
 	"os"
 	"photoserver/packageTools"
 	"regexp"
@@ -13,6 +14,15 @@ import (
 )
 
 func main() {
+	// http.Handle("/", http.FileServer(http.Dir("./static/images")))
+
+	fs := http.FileServer(http.Dir("./static/images"))
+	http.Handle("/images/", http.StripPrefix("/images", fs))
+
+	log.Fatal(http.ListenAndServe(":8080", nil))
+}
+
+func testing() {
 	fmt.Println(ReadExifFromFile("static/images/p2.jpg"))
 	fmt.Println(GetDateObjectFromString(ReadExifFromFile("static/images/p2.jpg")).Minute)
 
