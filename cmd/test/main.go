@@ -1,31 +1,116 @@
 package main
 
 import (
+	"bytes"
+	"crypto/tls"
 	"encoding/json"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"log"
 	"math/rand"
+	"mime/multipart"
 	"net/http"
 	"os"
+	"path/filepath"
 	"photoserver/packageTools"
 	"regexp"
 	"time"
 )
 
 func main() {
+	path, _ := os.Getwd()
+	path += "/static/images/p1.jpg"
+
+	SendFileUploadRequest("https://localhost:4443/api", path)
+
 	// http.Handle("/", http.FileServer(http.Dir("./static/images")))
 
-	fs := http.FileServer(http.Dir("./static/images"))
-	http.Handle("/images/", http.StripPrefix("/images", fs))
+	//fs := http.FileServer(http.Dir("./static/images"))
+	//http.Handle("/images/", http.StripPrefix("/images", fs))
 
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	//log.Fatal(http.ListenAndServe(":8080", nil))
+}
+
+// https://gist.github.com/mattetti/5914158
+func SendFileUploadRequest(uri string, path string) {
+	// get date from exif header image = path
+	req, err := createFileUploadRequest(uri, path, "date")
+	tr := &http.Transport{
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+	}
+	client := &http.Client{Transport: tr}
+	response, err := client.Do(req)
+	if err != nil {
+		log.Fatal(err)
+	} else {
+		body := &bytes.Buffer{}
+		_, err := body.ReadFrom(response.Body)
+		if err != nil {
+			log.Fatal(err)
+		}
+		response.Body.Close()
+	}
+}
+
+func createFileUploadRequest(uri string, path string, date string) (*http.Request, error) {
+	file, err := os.Open(path)
+	if err != nil {
+		return nil, err
+	}
+	defer file.Close()
+
+	body := &bytes.Buffer{}
+	writer := multipart.NewWriter(body)
+	part, err := writer.CreateFormFile("file", filepath.Base(path))
+	if err != nil {
+		return nil, err
+	}
+	_, err = io.Copy(part, file)
+
+	_ = writer.WriteField("datetime", date)
+	err = writer.Close()
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", uri, body)
+	req.Header.Set("Content-Type", writer.FormDataContentType())
+	return req, err
+}
+
+func newfileUploadRequest(uri string, params map[string]string, paramName, path string) (*http.Request, error) {
+	file, err := os.Open(path)
+	if err != nil {
+		return nil, err
+	}
+	defer file.Close()
+
+	body := &bytes.Buffer{}
+	writer := multipart.NewWriter(body)
+	part, err := writer.CreateFormFile(paramName, filepath.Base(path))
+	if err != nil {
+		return nil, err
+	}
+	_, err = io.Copy(part, file)
+
+	for key, val := range params {
+		_ = writer.WriteField(key, val)
+	}
+	err = writer.Close()
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", uri, body)
+	req.Header.Set("Content-Type", writer.FormDataContentType())
+	log.Println(req)
+	return req, err
 }
 
 func testing() {
 	fmt.Println(ReadExifFromFile("static/images/p2.jpg"))
 	fmt.Println(GetDateObjectFromString(ReadExifFromFile("static/images/p2.jpg")).Minute)
-
 
 	packageTools.InitCache(2)
 	cache := packageTools.GetGlobalCache()
@@ -51,10 +136,10 @@ func testing() {
 
 type Date struct {
 	Format string
-	Year string
-	Month string
-	Day string
-	Hour string
+	Year   string
+	Month  string
+	Day    string
+	Hour   string
 	Minute string
 	Second string
 }
@@ -62,10 +147,10 @@ type Date struct {
 func GetDateObjectFromString(input string) Date {
 	date := Date{
 		Format: input,
-		Year: input[0:4],
-		Month: input[5:7],
-		Day: input[8:10],
-		Hour: input[11:13],
+		Year:   input[0:4],
+		Month:  input[5:7],
+		Day:    input[8:10],
+		Hour:   input[11:13],
 		Minute: input[14:16],
 		Second: input[17:19],
 	}
@@ -86,12 +171,12 @@ func ReadExifFromFile(fileName string) string {
 }
 
 type User struct {
-	Id int `json:"id"`
-	Username string `json:"username"`
-	Password string `json:"password"`
-	Salt string `json:"salt"`
-	Token string `json:"token"`
-	Photos []string `photos:"Photos"`
+	Id       int      `json:"id"`
+	Username string   `json:"username"`
+	Password string   `json:"password"`
+	Salt     string   `json:"salt"`
+	Token    string   `json:"token"`
+	Photos   []string `photos:"Photos"`
 }
 
 var users []User
@@ -101,7 +186,7 @@ func GetAllUsers() *[]User {
 }
 
 func readUsers() {
-	userData, err := ioutil.ReadFile( "static/data/users.json")
+	userData, err := ioutil.ReadFile("static/data/users.json")
 	if err != nil {
 		panic(err)
 	}
@@ -157,11 +242,11 @@ func createUser(username string, password string) *User {
 	token := createSessionToken()
 
 	user := User{
-		Id: id,
+		Id:       id,
 		Username: username,
 		Password: passwordHash,
-		Salt: salt,
-		Token: token,
+		Salt:     salt,
+		Token:    token,
 	}
 
 	readUsers()
@@ -215,20 +300,17 @@ func getUserByUsername(username string) *User {
 	return nil
 }
 
-
-
-
 type Photo struct {
-	Name string `json:"name"`
+	Name     string `json:"name"`
 	Username string `json:"username"`
-	Hash string `json:"hash"`
-	Encoded string `json:encoded`
+	Hash     string `json:"hash"`
+	Encoded  string `json:encoded`
 	exifDate string `json:exifdate`
 }
 
 func GetPhotoByHash(hash string) *Photo {
 	var photo Photo
-	photoFile, err := ioutil.ReadFile( "static/data/photo_" + hash + ".json")
+	photoFile, err := ioutil.ReadFile("static/data/photo_" + hash + ".json")
 
 	if err != nil {
 		panic(err)
@@ -249,11 +331,11 @@ func SavePhoto(name string, username string, encoded string, exifdate string) *P
 		return nil
 	}
 
-	photo := Photo {
-		Name: name,
+	photo := Photo{
+		Name:     name,
 		Username: username,
-		Hash: hash,
-		Encoded: encoded,
+		Hash:     hash,
+		Encoded:  encoded,
 		exifDate: exifdate,
 	}
 
@@ -262,7 +344,7 @@ func SavePhoto(name string, username string, encoded string, exifdate string) *P
 		panic(err)
 	}
 
-	err = ioutil.WriteFile("static/data/photo_" + hash + ".json", photoJson, 0644)
+	err = ioutil.WriteFile("static/data/photo_"+hash+".json", photoJson, 0644)
 	if err != nil {
 		panic(err)
 	}
