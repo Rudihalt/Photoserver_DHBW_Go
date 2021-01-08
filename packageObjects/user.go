@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"math/rand"
 	"photoserver/packageTools"
 	"time"
@@ -15,13 +16,17 @@ type User struct {
 	Password string   `json:"password"`
 	Salt     string   `json:"salt"`
 	Token    string   `json:"token"`
-	Photos   []string `photos:"Photos"`
+	Photos   []string `photos:"photos"`
 }
 
-var users []User
+var users *[]User
 
 func GetAllUsers() *[]User {
-	return &users
+	return users
+}
+
+func SetAllUsers(usersParam *[]User) {
+	users = usersParam
 }
 
 func readUsers() {
@@ -90,7 +95,19 @@ func CreateUser(username string, password string) *User {
 		Token:    token,
 	}
 
-	users = append(users, user)
+
+	test := *GetAllUsers()
+
+	log.Println("1: " + string(len(test)))
+
+	newlist := append(test, user)
+
+	log.Println("2: " + string(len(test)))
+
+	SetAllUsers(&newlist)
+
+	log.Println("3: " + string(len(test)))
+
 	saveUsers()
 
 	return &user
@@ -107,7 +124,7 @@ func createSessionToken() string {
 
 func UserExists(username string) bool {
 	readUsers()
-	for _, user := range users {
+	for _, user := range *GetAllUsers() {
 		if user.Username == username {
 			return true
 		}
@@ -118,7 +135,7 @@ func UserExists(username string) bool {
 
 func GetUserByToken(token string) *User {
 	readUsers()
-	for _, user := range users {
+	for _, user := range *GetAllUsers() {
 		if user.Token == token {
 			return &user
 		}
@@ -128,7 +145,7 @@ func GetUserByToken(token string) *User {
 }
 
 func getUserByUsername(username string) *User {
-	for _, user := range users {
+	for _, user := range *GetAllUsers() {
 		if user.Username == username {
 			return &user
 		}
