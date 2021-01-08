@@ -33,8 +33,12 @@ func main() {
 	http.HandleFunc("/test", packageHandler.TestHandler)
 	http.HandleFunc("/upload", packageHandler.UploadHandler)
 	http.HandleFunc("/up", packageHandler.UpHandler)
+	http.HandleFunc("/gallery", packageHandler.GalleryHandler)
+
 
 	http.HandleFunc("/api", packageHandler.RESTHandler)
+
+	
 
 	// log.Fatalln(http.ListenAndServe(":8080", nil))
 	// https://stackoverflow.com/questions/10175812/how-to-create-a-self-signed-certificate-with-openssl
