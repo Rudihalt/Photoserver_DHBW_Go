@@ -12,28 +12,13 @@ import (
 	"photoserver/packageTools"
 )
 
-type Photo struct {
-	Name string `json:name`
-	userID int `json:userID`
-	Encoded string `json:encoded`
-	exifDate string `json:exifDate`
+type Comment struct {
+	Photo string `json:"photo"`
+	Comment string `json:"comment"`
+	Date string `json:"date"`
 }
 
-func addNewPhotoToDB(name string, userid int, encoded string, exifdate string) *Photo {
-	photo := Photo{
-		Name: name,
-		userID: userid,
-		Encoded: encoded,
-		exifDate: exifdate,
-	}
-
-
-
-
-	return &photo
-}
-
-func GetPhotoByID(id int) {
+func GetPhotoByIDX(id int) {
 	lruCache := packageTools.GetGlobalCache()
 	var cache = *lruCache
 
@@ -50,20 +35,17 @@ func GetPhotoByID(id int) {
 	log.Println(encoded)
 }
 
-func getPhotoByIDDB(id int) string {
-	return "not implemented"
-}
 
 
 
 // https://www.sanarias.com/blog/1214PlayingwithimagesinHTTPresponseingolang
 
-var ImageTemplate string = `<!DOCTYPE html>
+var ImageTemplateX string = `<!DOCTYPE html>
 <html lang="en"><head></head>
 <body><h1>Image-Test</h1><img src="data:image/jpg;base64,{{.Image}}"></body>`
 
 // Writeimagewithtemplate encodes an image 'img' in jpeg format and writes it into ResponseWriter using a template.
-func WriteImageWithTemplate(w http.ResponseWriter, img *image.Image) {
+func WriteImageWithTemplateX(w http.ResponseWriter, img *image.Image) {
 
 	buffer := new(bytes.Buffer)
 	if err := jpeg.Encode(buffer, *img, nil); err != nil {
@@ -81,7 +63,7 @@ func WriteImageWithTemplate(w http.ResponseWriter, img *image.Image) {
 	}
 }
 
-func GetImageByName(fileName string) *image.Image {
+func GetImageByNameX(fileName string) *image.Image {
 	f, err := os.Open(fileName)
 	if err != nil {
 		log.Println("Error opening the file: " + fileName)
