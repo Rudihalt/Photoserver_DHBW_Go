@@ -6,10 +6,16 @@ import (
 	"net/http"
 )
 
+var NavData NavBarData
+
 var NavTemplate *template.Template
 var LoginTemplate *template.Template
 var RegisterTemplate *template.Template
 var UploadTemplate *template.Template
+
+type NavBarData struct {
+	Username string
+}
 
 func InitTemplates() {
 	var err error

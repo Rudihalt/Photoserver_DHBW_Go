@@ -34,6 +34,20 @@
             width: auto;
             padding: 10px 20px;
         }
+        div.error {
+            font-size: small;
+            width: auto;
+            padding: 0 15px 20px;
+            color: #ff0000;
+        }
+        a {
+            color: #026c45;
+            text-decoration: underline;
+            font-weight: bold;
+        }
+        a:hover {
+            color: #03a642;
+        }
     </style>
 </head>
 <body>
@@ -45,12 +59,15 @@
 
         <label for="password"><b>Password</b></label>
         <input type="password" placeholder="Enter Password" name="password" required>
+        {{ if .PasswordNotCorrect }}
+        <div class="error">Please make sure your password is correct.</div>
+        {{ end }}
 
         <button type="submit">Login</button>
     </div>
 
     <div class="container" style="background-color:#f1f1f1">
-        <span class="register">Not yet <a href="/register">registered?</a></span>
+        <span class="register">Not yet <a href="/register">registered</a>?</span>
     </div>
 </form>
 </body>

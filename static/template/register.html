@@ -34,20 +34,48 @@
             width: auto;
             padding: 10px 20px;
         }
+        span.successfull {
+            width: auto;
+            padding: 10px 20px;
+        }
+        div.error {
+            font-size: small;
+            width: auto;
+            padding: 0 15px 20px;
+            color: #ff0000;
+        }
+        a {
+            color: #026c45;
+            text-decoration: underline;
+            font-weight: bold;
+        }
+        a:hover {
+            color: #03a642;
+        }
     </style>
 </head>
 <body>
+{{ if .SuccessfullyRegistered }}
+<div class="container">
+    <span class="successfull">You have registered successfully. <a href="/my">{{ .Username }}</a></span>
+</div>
+{{ else }}
 <form action="/register" method="post">
-
     <div class="container">
         <label for="username"><b>Username</b></label>
         <input type="text" placeholder="Enter Username" name="username" required>
+        {{ if .UserAlreadyExist }}
+        <div class="error">Username already exists.</div>
+        {{ end }}
 
         <label for="password"><b>Password</b></label>
         <input type="password" placeholder="Enter Password" name="password" required>
 
         <label for="confpassword"><b>Confirm Password</b></label>
         <input type="password" placeholder="Confirm Password" name="confpassword" required>
+        {{ if .PasswordNotCorrect }}
+        <div class="error">Please make sure your passwords match.</div>
+        {{ end }}
 
         <button type="submit">Register</button>
     </div>
@@ -56,5 +84,6 @@
         <span class="register">Already registered? <a href="/login">Login</a></span>
     </div>
 </form>
+{{ end }}
 </body>
 </html>
