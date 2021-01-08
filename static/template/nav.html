@@ -43,7 +43,11 @@
     <li><a class="left" href="/upload">UPLOAD</a></li>
     <li><a class="left" href="/order">ORDERS</a></li>
 
+    {{ if .Username }}
+    <li><a class="right" href="/my">{{ .Username }}</a></li>
+    {{ else }}
     <li><a class="right" href="/login">LOGIN</a></li>
+    {{ end }}
 </ul>
 </body>
 </html>
