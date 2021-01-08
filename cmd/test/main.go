@@ -18,7 +18,7 @@ func main() {
 
 
 	packageTools.InitCache(2)
-	cache := *packageTools.GetGlobalCache()
+	cache := packageTools.GetGlobalCache()
 
 	cache.InitLru(2)
 	cache.Put(2, "a")
@@ -36,8 +36,7 @@ func main() {
 	if userPtr == nil {
 		log.Println("User already exist!")
 	}
-	user := *userPtr
-	SavePhoto("photo.jpg", user.Username, "ABCDEF", "2020:10:29 13:34:25")
+	SavePhoto("photo.jpg", userPtr.Username, "ABCDEF", "2020:10:29 13:34:25")
 }
 
 type Date struct {
@@ -118,7 +117,7 @@ func saveUsers() {
 func checkPassword(username string, password string) (bool, string) {
 	readUsers()
 
-	user := *getUserByUsername(username)
+	user := getUserByUsername(username)
 	hashedInputPassword := packageTools.HashSHA(user.Salt + password)
 
 	if hashedInputPassword == user.Password {
@@ -129,17 +128,13 @@ func checkPassword(username string, password string) (bool, string) {
 }
 
 func addPhotoToUser(username string, photoHash string) {
-	user := *getUserByUsername(username)
+	user := getUserByUsername(username)
 	userPhotos := user.Photos
 
 	fmt.Println(user.Photos)
 
 	newUserPhotos := append(userPhotos, photoHash)
 	user.Photos = newUserPhotos
-
-	fmt.Println(len(user.Photos))
-
-
 
 	saveUsers()
 }
