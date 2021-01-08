@@ -3,26 +3,35 @@ package main
 import (
 	"bytes"
 	"crypto/tls"
-	"encoding/json"
 	"fmt"
 	"io"
 	"io/ioutil"
 	"log"
-	"math/rand"
 	"mime/multipart"
 	"net/http"
 	"os"
 	"path/filepath"
+	"photoserver/packageObjects"
 	"photoserver/packageTools"
 	"regexp"
-	"time"
 )
 
 func main() {
+
+	fmt.Println(ReadExifFromFile("static/images/p3.jpg"))
+
+	userPtr := packageObjects.CreateUser("x2", "123456")
+	if userPtr == nil {
+		log.Println("User already exist!")
+	}
+	packageObjects.SavePhoto("photo.jpg", userPtr.Username, "ABCDEFG", "2020:10:29 13:34:25")
+
+
+
 	path, _ := os.Getwd()
 	path += "/static/images/p1.jpg"
 
-	SendFileUploadRequest("https://localhost:4443/api", path)
+	// SendFileUploadRequest("https://localhost:4443/api", path)
 
 	// http.Handle("/", http.FileServer(http.Dir("./static/images")))
 
@@ -30,6 +39,8 @@ func main() {
 	//http.Handle("/images/", http.StripPrefix("/images", fs))
 
 	//log.Fatal(http.ListenAndServe(":8080", nil))
+
+
 }
 
 // https://gist.github.com/mattetti/5914158
@@ -127,11 +138,11 @@ func testing() {
 	fmt.Println(cache.Get(1))
 	fmt.Println(cache.Get(8))
 
-	userPtr := createUser("testuser", "123456")
+	userPtr := packageObjects.CreateUser("testuser", "123456")
 	if userPtr == nil {
 		log.Println("User already exist!")
 	}
-	SavePhoto("photo.jpg", userPtr.Username, "ABCDEF", "2020:10:29 13:34:25")
+	packageObjects.SavePhoto("photo.jpg", userPtr.Username, "ABCDEF", "2020:10:29 13:34:25")
 }
 
 type Date struct {
@@ -163,193 +174,13 @@ func ReadExifFromFile(fileName string) string {
 		panic(err)
 	}
 
-	var checkString = string(f)[0:1000]
+	var checkString = string(f) //[0:1000]
 
 	re := regexp.MustCompile(`[0-9]{4}:[0-9]{2}:[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}`)
 
 	return re.FindString(checkString)
 }
 
-type User struct {
-	Id       int      `json:"id"`
-	Username string   `json:"username"`
-	Password string   `json:"password"`
-	Salt     string   `json:"salt"`
-	Token    string   `json:"token"`
-	Photos   []string `photos:"Photos"`
-}
 
-var users []User
 
-func GetAllUsers() *[]User {
-	return &users
-}
 
-func readUsers() {
-	userData, err := ioutil.ReadFile("static/data/users.json")
-	if err != nil {
-		panic(err)
-	}
-
-	err = json.Unmarshal(userData, &users)
-	if err != nil {
-		panic(err)
-	}
-}
-
-func saveUsers() {
-	usersJson, err := json.MarshalIndent(users, "", "\t")
-	if err != nil {
-		panic(err)
-	}
-
-	err = ioutil.WriteFile("static/data/users.json", usersJson, 0644)
-	if err != nil {
-		panic(err)
-	}
-}
-
-func checkPassword(username string, password string) (bool, string) {
-	readUsers()
-
-	user := getUserByUsername(username)
-	hashedInputPassword := packageTools.HashSHA(user.Salt + password)
-
-	if hashedInputPassword == user.Password {
-		return true, user.Token
-	}
-
-	return false, ""
-}
-
-func addPhotoToUser(username string, photoHash string) {
-	user := getUserByUsername(username)
-	userPhotos := user.Photos
-
-	fmt.Println(user.Photos)
-
-	newUserPhotos := append(userPhotos, photoHash)
-	user.Photos = newUserPhotos
-
-	saveUsers()
-}
-
-func createUser(username string, password string) *User {
-	rand.Seed(time.Now().UnixNano())
-	id := rand.Intn(1000000000)
-	salt := packageTools.CreateSalt()
-	passwordHash := packageTools.HashSHA(salt + password)
-	token := createSessionToken()
-
-	user := User{
-		Id:       id,
-		Username: username,
-		Password: passwordHash,
-		Salt:     salt,
-		Token:    token,
-	}
-
-	readUsers()
-
-	if userExists(username) {
-		return nil
-	}
-
-	users = append(users, user)
-	saveUsers()
-
-	return &user
-}
-
-func createSessionToken() string {
-	token := ""
-	for i := 1; i < 5; i++ {
-		token += packageTools.CreateSalt()
-	}
-
-	return token
-}
-
-func userExists(username string) bool {
-	for _, user := range users {
-		if user.Username == username {
-			return true
-		}
-	}
-
-	return false
-}
-
-func getUserByToken(token string) *User {
-	for _, user := range users {
-		if user.Token == token {
-			return &user
-		}
-	}
-
-	return nil
-}
-
-func getUserByUsername(username string) *User {
-	for _, user := range users {
-		if user.Username == username {
-			return &user
-		}
-	}
-
-	return nil
-}
-
-type Photo struct {
-	Name     string `json:"name"`
-	Username string `json:"username"`
-	Hash     string `json:"hash"`
-	Encoded  string `json:encoded`
-	exifDate string `json:exifdate`
-}
-
-func GetPhotoByHash(hash string) *Photo {
-	var photo Photo
-	photoFile, err := ioutil.ReadFile("static/data/photo_" + hash + ".json")
-
-	if err != nil {
-		panic(err)
-	}
-
-	err = json.Unmarshal(photoFile, &photo)
-	if err != nil {
-		panic(err)
-	}
-
-	return &photo
-}
-
-func SavePhoto(name string, username string, encoded string, exifdate string) *Photo {
-	hash := packageTools.HashSHA(encoded)
-
-	if _, err := os.Stat("static/data/photo_" + hash + ".json"); os.IsNotExist(err) == false {
-		return nil
-	}
-
-	photo := Photo{
-		Name:     name,
-		Username: username,
-		Hash:     hash,
-		Encoded:  encoded,
-		exifDate: exifdate,
-	}
-
-	photoJson, err := json.MarshalIndent(photo, "", "\t")
-	if err != nil {
-		panic(err)
-	}
-
-	err = ioutil.WriteFile("static/data/photo_"+hash+".json", photoJson, 0644)
-	if err != nil {
-		panic(err)
-	}
-
-	addPhotoToUser(username, hash)
-
-	return &photo
-}
