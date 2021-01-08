@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <body>
-<form enctype="multipart/form-data" action="https://localhost:4443/upload" method="post">
-    <input type="file" name="uploadFile" />
+<form enctype="multipart/form-data" action="/api" method="post">
+    <input type="file" name="file" />
+    <input type="hidden" name="username" value="{{ .Username }}" />
     <input type="submit" value="upload" />
 </form>
 </body>

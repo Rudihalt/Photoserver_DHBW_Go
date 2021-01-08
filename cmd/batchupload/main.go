@@ -1,23 +1,25 @@
 package main
 
 import (
-	"bytes"
 	"flag"
-	"fmt"
-	"io/ioutil"
 	"log"
-	"net/http"
 	"os"
+	"path/filepath"
+	"photoserver/packageObjects"
+	"photoserver/packageTools"
 	"strconv"
+	"strings"
 )
 
 func main() {
 	// Templates: https://www.calhoun.io/intro-to-templates-p2-actions/
 
-	var address = flag.String("address", "localhost", "Server-Address")
-	var port = flag.Int("port", 4443, "Port")
-	var dataFolder = flag.String("data", "", "Data-Folder")
-	
+	var address = flag.String("address", "localhost", "Adresse des Photoserver")
+	var port = flag.Int("port", 4443, "Port des Photoserver")
+	var dataFolder = flag.String("data", "", "Pfad des Ordners mit den Photos")
+	var username = flag.String("username", "", "Username")
+	var password = flag.String("password", "", "Password")
+
 	flag.Parse()
 
 	log.Println("----- BATCH-UPLOAD -----")
@@ -25,41 +27,51 @@ func main() {
 	log.Println("Folgende Parameter werden verwendet: Port: " + strconv.Itoa(*port) + " Address: " + *address + " Data-Folder: " + *dataFolder)
 	log.Println()
 
-	if *dataFolder == "" {
-		log.Println("Folgende Eingabeparameter übergeben:")
-		log.Println("-address [Adresse] -> Adresse des Photoserver")
-		log.Println("-port [Port] -> Port des Photoserver.")
-		log.Println("-data [Adresse] -> Adresse ")
-		log.Println()
-		log.Println("-> Der Server ist nur über https erreichbar. Sonst ist ein Batch-Upload nicht möglich")
-
+	// check if host-address is reachable
+	var host = *address
+	if strings.Contains(host, "https://") || strings.Contains(*address, "http://") {
+		host = strings.Replace(host, "https://", "", 1)
+		host = strings.Replace(host, "http://", "", 1)
+	}
+	host += ":" + strconv.Itoa(*port)
+	if !packageTools.CheckHost(host) {
+		log.Println("Could not connect to", host)
 		os.Exit(0)
 	}
 
-	// https://stackoverflow.com/questions/24455147/how-do-i-send-a-json-string-in-a-post-request-in-go
-	url := "https://" + *address + "/api:" + strconv.Itoa(*port)
-	fmt.Println("URL:>", url)
+	// check if directory exist
+	if !packageTools.PathExist(*dataFolder) {
+		log.Println("Data-Folder not found")
+		os.Exit(0)
+	}
 
-	var jsonStr = []byte(
-		`{"title":"Buy cheese and bread for breakfast."}`)
-	req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonStr))
+	// check if user exist
+	if !packageObjects.UserExists(*username) {
+		log.Println("User does not exist")
+		os.Exit(0)
+	}
 
-	req.Header.Set("X-Custom-Header", "myvalue")
-	req.Header.Set("Content-Type", "application/json")
+	//check if password is correct
+	ok, _ := packageObjects.CheckPassword(*username, *password)
+	if !ok {
+		log.Println("Password for username", *username, "is not correct")
+		os.Exit(0)
+	}
 
-	client := &http.Client{}
-	resp, err := client.Do(req)
+	host = "https://" + host + "/api"
+	var files []string
 
+	// send for each file a post request to the endpoint
+	path := *dataFolder
+	err := filepath.Walk(path, func(p string, info os.FileInfo, err error) error {
+		files = append(files, p)
+		return nil
+	})
 	if err != nil {
 		panic(err)
 	}
-	defer resp.Body.Close()
-
-	fmt.Println("response Status:", resp.Status)
-	fmt.Println("response Headers:", resp.Header)
-
-	body, _ := ioutil.ReadAll(resp.Body)
-
-	fmt.Println("response Body:", string(body))
-
+	for _, file := range files[1:] {
+		log.Println(file)
+		packageTools.SendFileUploadRequest(host, file, *username)
+	}
 }

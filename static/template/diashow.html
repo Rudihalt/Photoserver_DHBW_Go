@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Photoserver Diashow</title>
+</head>
+
+<head>
+    <style>
+
+        .center {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .pic-diashow {
+            max-width: 500px;
+        }
+
+        .mySlides {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .center-text {
+            text-align: center;
+        }
+
+
+    </style>
+</head>
+
+<body>
+
+<h1 class="center-text">Automatic Slideshow</h1>
+<div class="pic-diashow center">
+
+    {{ range . }}
+        <img class="mySlides" src="{{ .Path }}" style="width:100%">
+    {{ end }}
+
+</div>
+
+
+
+<script>
+    var myIndex = 0;
+    carousel();
+
+    function carousel() {
+        var i;
+        var x = document.getElementsByClassName("mySlides");
+        for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
+        }
+        myIndex++;
+        if (myIndex > x.length) {myIndex = 1}
+        x[myIndex-1].style.display = "block";
+        setTimeout(carousel, 3000);
+    }
+</script>
+
+</body>
+</html>
