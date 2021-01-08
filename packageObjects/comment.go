@@ -12,7 +12,7 @@ import (
 	"photoserver/packageTools"
 )
 
-type Comment struct {
+type Commentssasds struct {
 	Photo string `json:"photo"`
 	Comment string `json:"comment"`
 	Date string `json:"date"`

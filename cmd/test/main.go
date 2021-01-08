@@ -18,18 +18,22 @@ import (
 
 func main() {
 
-	fmt.Println(ReadExifFromFile("static/images/p3.jpg"))
+	t := [...]string{"a", "b", "c"}
+
+	fmt.Println(t[0:4])
+
+	/*fmt.Println(ReadExifFromFile("static/images/p3.jpg"))
 
 	userPtr := packageObjects.CreateUser("x2", "123456")
 	if userPtr == nil {
 		log.Println("User already exist!")
 	}
-	packageObjects.SavePhoto("photo.jpg", userPtr.Username, "ABCDEFG", "2020:10:29 13:34:25")
+	packageObjects.SavePhoto("photo.jpg", userPtr.Username, "ABCDEFG", "2020:10:29 13:34:25")*/
 
 
 
-	path, _ := os.Getwd()
-	path += "/static/images/p1.jpg"
+	// path, _ := os.Getwd()
+	// path += "/static/images/p1.jpg"
 
 	// SendFileUploadRequest("https://localhost:4443/api", path)
 
@@ -142,7 +146,7 @@ func testing() {
 	if userPtr == nil {
 		log.Println("User already exist!")
 	}
-	packageObjects.SavePhoto("photo.jpg", userPtr.Username, "ABCDEF", "2020:10:29 13:34:25")
+	//packageObjects.SavePhoto("photo.jpg", userPtr.Username, "ABCDEF", "2020:10:29 13:34:25")
 }
 
 type Date struct {

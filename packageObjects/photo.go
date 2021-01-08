@@ -16,41 +16,88 @@ import (
 
 type Photo struct {
 	Name     string `json:"name"`
-	Username string `json:"username"`
+	Path     string `json:"name"`
 	Hash     string `json:"hash"`
-	Encoded  string `json:encoded`
-	exifDate string `json:exifdate`
+	Date     string `json:"date"`
+	Comments []Comment `json:"comments"`
 }
 
-func GetPhotoByHash(hash string) *Photo {
-	var photo Photo
-	photoFile, err := ioutil.ReadFile("static/data/photo_" + hash + ".json")
+type Comment struct {
+	Comment string `json:"comment"`
+	Date    string `json:"date"`
+}
+
+func GetAllPhotosByUser(username string) *[]Photo {
+	var photos []Photo
+	photosFile, err := ioutil.ReadFile("static/data/photos_" + username + ".json")
 
 	if err != nil {
 		panic(err)
 	}
 
-	err = json.Unmarshal(photoFile, &photo)
+	err = json.Unmarshal(photosFile, &photos)
+
 	if err != nil {
 		panic(err)
 	}
 
-	return &photo
+	return &photos
 }
 
-func SavePhoto(name string, username string, encoded string, exifdate string) *Photo {
-	hash := packageTools.HashSHA(encoded)
+func getPhotosForPage(username string, page int) *[]Photo{
+	photos := *GetAllPhotosByUser(username)
+	total := len(photos)
 
-	if _, err := os.Stat("static/data/photo_" + hash + ".json"); os.IsNotExist(err) == false {
+	if total == 0 {
 		return nil
 	}
 
-	photo := Photo{
+	photosPerPage := 3
+
+	if (total / photosPerPage) + 1 > page {
+		page = total / photosPerPage
+	}
+
+	start := page * photosPerPage
+	end := start + photosPerPage
+
+	if end > total {
+		end = total
+	}
+
+	part := photos[start:end]
+
+	return &part
+}
+
+func GetCommentsFromPhoto(photo *Photo) *[]Comment {
+	return &photo.Comments
+}
+
+func GetPhotoByUserAndHash(username string, hash string) *Photo {
+	photos := *GetAllPhotosByUser(username)
+
+	for _, photo := range photos {
+		if photo.Hash == hash {
+			return &photo
+		}
+	}
+
+	return nil
+}
+
+func SavePhoto(name string, username string, path string, encoded string, date string) *Photo {
+	hash := packageTools.HashSHA(encoded)
+
+	if GetPhotoByUserAndHash(username, hash) != nil {
+		return nil
+	}
+
+	photo := Photo {
 		Name:     name,
-		Username: username,
+		Path:     path,
 		Hash:     hash,
-		Encoded:  encoded,
-		exifDate: exifdate,
+		Date:     date,
 	}
 
 	photoJson, err := json.MarshalIndent(photo, "", "\t")
@@ -69,16 +116,16 @@ func SavePhoto(name string, username string, encoded string, exifdate string) *P
 }
 
 
-func GetPhotoByID(id int) {
+func GetPhotoByUserAndHash2(username string, hash string) {
 	lruCache := packageTools.GetGlobalCache()
 	var cache = *lruCache
 
-	encoded := cache.Get(id)
+	encoded := cache.Get(2)
 
 	if encoded == "" {
 		log.Println(encoded)
 
-		encoded = getPhotoByIDDB(id)
+		encoded = getPhotoByIDDB(2)
 	}
 
 	// todo: load other info from json file an
