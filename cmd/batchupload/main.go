@@ -58,7 +58,7 @@ func main() {
 		os.Exit(0)
 	}
 
-	host = "https://" + host
+	host = "https://" + host + "/api"
 	var files []string
 
 	// send for each file a post request to the endpoint
@@ -72,6 +72,6 @@ func main() {
 	}
 	for _, file := range files[1:] {
 		log.Println(file)
-		packageTools.SendFileUploadRequest(host+"/api", file)
+		packageTools.SendFileUploadRequest(host, file, *username)
 	}
 }

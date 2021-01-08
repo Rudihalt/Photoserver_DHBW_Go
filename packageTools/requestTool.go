@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"crypto/tls"
 	"io"
-	"io/ioutil"
 	"log"
 	"mime/multipart"
 	"net"
@@ -15,18 +14,8 @@ import (
 )
 
 // https://gist.github.com/mattetti/5914158
-func SendFileUploadRequest(uri string, path string) {
-	// get date from exif header image = path
-	b, err := ioutil.ReadFile(path)
-	if err != nil {
-		log.Fatalln(err)
-	}
-	date, err := GetDateTime(b)
-	if err != nil {
-		log.Fatalln(err)
-	}
-
-	req, err := createFileUploadRequest(uri, path, date)
+func SendFileUploadRequest(uri string, path string, username string) {
+	req, err := createFileUploadRequest(uri, path, username)
 	tr := &http.Transport{
 		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
 	}
@@ -44,7 +33,7 @@ func SendFileUploadRequest(uri string, path string) {
 	}
 }
 
-func createFileUploadRequest(uri string, path string, date string) (*http.Request, error) {
+func createFileUploadRequest(uri string, path string, username string) (*http.Request, error) {
 	file, err := os.Open(path)
 	if err != nil {
 		return nil, err
@@ -59,7 +48,7 @@ func createFileUploadRequest(uri string, path string, date string) (*http.Reques
 	}
 	_, err = io.Copy(part, file)
 
-	_ = writer.WriteField("datetime", date)
+	_ = writer.WriteField("username", username)
 	err = writer.Close()
 	if err != nil {
 		return nil, err
