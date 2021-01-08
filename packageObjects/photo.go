@@ -20,12 +20,6 @@ type Photo struct {
 	Path     string `json:"path"`
 	Hash     string `json:"hash"`
 	Date     string `json:"date"`
-	Comments []Comment `json:"comments"`
-}
-
-type Comment struct {
-	Comment string `json:"comment"`
-	Date    string `json:"date"`
 }
 
 func GetAllPhotosByUser(username string) *[]Photo {
@@ -73,10 +67,6 @@ func getPhotosForPage(username string, page int) *[]Photo{
 	return &part
 }
 
-func GetCommentsFromPhoto(photo *Photo) *[]Comment {
-	return &photo.Comments
-}
-
 func GetPhotoByUserAndHash(photos *[]Photo, hash string) *Photo {
 
 	for _, photo := range *photos {
@@ -120,23 +110,6 @@ func savePhotos(username string, photos *[]Photo) {
 	if err != nil {
 		panic(err)
 	}
-}
-
-func AddCommentToPhoto(username string, hash string, comment string) {
-	photos := GetAllPhotosByUser(username)
-	photo := GetPhotoByUserAndHash(photos, hash)
-
-	commentO := Comment{
-		Comment: comment,
-		Date: "heute",
-	}
-
-	currentComments := photo.Comments
-	currentComments = append(currentComments, commentO)
-
-	photo.Comments = currentComments
-
-	savePhotos(username, photos)
 }
 
 
