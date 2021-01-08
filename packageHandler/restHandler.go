@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"photoserver/packageTools"
 )
 
 func RESTHandler(w http.ResponseWriter, r *http.Request) {
@@ -14,23 +15,21 @@ func RESTHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	if r.Method == "POST" {
 		r.ParseMultipartForm(10 << 20)
+		// posted stuff
 		file, handler, err := r.FormFile("file")
 		if err != nil {
 			log.Println("Error Retrieving the File")
 			log.Println(err)
 		}
 		// read datetime data
-		datetime := r.FormValue("datetime")
-		log.Println("datetime", datetime)
+		username := r.FormValue("username")
 		defer file.Close()
-
-		// posted stuff (hot glue)
-		log.Printf("Uploaded File: %+v\n", handler.Filename)
-		log.Printf("File Size: %+v\n", handler.Size)
-		log.Printf("MIME Header: %+v\n", handler.Header)
 
 		path, _ := os.Getwd()
 		path += "/static/images"
+
+		//TODO: CHECK IF PHOTO ALREADY EXIST
+
 		f, err := os.Create(filepath.Join(path, handler.Filename))
 		if err != nil {
 			log.Println(f, "was successfully created")
@@ -41,6 +40,16 @@ func RESTHandler(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			log.Println(err)
 		}
+
+		date, err := packageTools.GetDateTime(fileBytes)
+		if err != nil {
+			log.Fatalln(err)
+		}
 		f.Write(fileBytes)
+
+		// ouput to save
+		log.Println("username:", username)
+		log.Println("Uploaded File:", handler.Filename)
+		log.Println("date:", date)
 	}
 }
