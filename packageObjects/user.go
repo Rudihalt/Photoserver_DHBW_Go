@@ -117,6 +117,7 @@ func UserExists(username string) bool {
 }
 
 func GetUserByToken(token string) *User {
+	readUsers()
 	for _, user := range users {
 		if user.Token == token {
 			return &user
