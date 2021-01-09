@@ -20,10 +20,12 @@ Matrikelnummern:
     <hr>
     <br>
     <div>
-        {{ range .OrderElements }}
+        {{ range .OrderElementsData }}
         <div>
             <p class="testborder">
-                Image Hash: {{ .Hash }}
+                <img src="{{ .ImagePath }}">
+                <br>
+                Image Name: {{ .Name }}
                 <br>
                 Amount: {{ .Amount }}
                 <br>

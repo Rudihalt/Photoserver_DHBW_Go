@@ -14,7 +14,14 @@ import (
 )
 
 type OrderViewData struct {
-	OrderElements []packageObjects.OrderElement
+	OrderElementsData []OrderElementData
+}
+
+type OrderElementData struct {
+	Name string
+	ImagePath string
+	Amount int
+	Format string
 }
 
 func OrderHandler(w http.ResponseWriter, r *http.Request) {
@@ -57,10 +64,26 @@ func OrderHandler(w http.ResponseWriter, r *http.Request) {
 		NavData = NavBarData{Username: user.Username}
 		err := NavTemplate.Execute(w, NavData)
 
+		allPhotos := packageObjects.GetAllPhotosByUser(user.Username)
+
+		var orderElementData []OrderElementData
 		orderElements := packageObjects.GetAllOrderElementsByUser(user.Username)
 
+		for _, orderElement := range *orderElements {
+			photo := *packageObjects.GetPhotoByUserAndHash(allPhotos, orderElement.Hash)
+
+			temp := OrderElementData{
+				Name: photo.Name,
+				ImagePath: photo.Path,
+				Amount: orderElement.Amount,
+				Format: orderElement.Format,
+			}
+
+			orderElementData = append(orderElementData, temp)
+		}
+
 		orderViewData := OrderViewData{
-			OrderElements: *orderElements,
+			OrderElementsData: orderElementData,
 		}
 
 		err = OrderTemplate.Execute(w, orderViewData)
