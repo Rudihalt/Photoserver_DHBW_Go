@@ -31,6 +31,7 @@ func main() {
 	http.HandleFunc("/diashow", packageHandler.DiashowHandler)
 	http.HandleFunc("/upload", packageHandler.UploadHandler)
 	http.HandleFunc("/gallery", packageHandler.GalleryHandler)
+	http.HandleFunc("/order", packageHandler.OrderHandler)
 
 
 	http.HandleFunc("/api", packageHandler.RESTHandler)
