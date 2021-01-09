@@ -50,7 +50,6 @@ func addFiles(w *zip.Writer, basePath, baseInZip string) {
 			if err != nil {
 				fmt.Println(err)
 			}
-
 			// Add some files to the archive.
 			f, err := w.Create(baseInZip + file.Name())
 			if err != nil {
