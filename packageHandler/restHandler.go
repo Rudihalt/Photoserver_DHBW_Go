@@ -1,3 +1,9 @@
+/*
+Matrikelnummern:
+- 9122564
+- 2227134
+- 3886565
+*/
 package packageHandler
 
 import (
@@ -63,7 +69,7 @@ func RESTHandler(w http.ResponseWriter, r *http.Request) {
 		log.Println("Uploaded File:", handler.Filename)
 		log.Println("date:", date)
 
-		photo := packageObjects.SavePhoto(handler.Filename, username, "/images/" + handler.Filename, date)
+		photo := packageObjects.SavePhoto(handler.Filename, username, "/images/"+handler.Filename, date)
 		if photo == nil {
 			log.Println("File could not be uploaded! File already exists?")
 		} else {

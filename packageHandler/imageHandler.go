@@ -1,3 +1,9 @@
+/*
+Matrikelnummern:
+- 9122564
+- 2227134
+- 3886565
+*/
 package packageHandler
 
 import (
@@ -8,8 +14,8 @@ import (
 )
 
 type ImageShowData struct {
-	Hash string
-	Photo packageObjects.Photo
+	Hash     string
+	Photo    packageObjects.Photo
 	Comments []packageObjects.Comment
 }
 
@@ -87,8 +93,8 @@ func ImageHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		imageShowData := ImageShowData{
-			Hash: photo.Hash,
-			Photo: *photo,
+			Hash:     photo.Hash,
+			Photo:    *photo,
 			Comments: dataComments,
 		}
 

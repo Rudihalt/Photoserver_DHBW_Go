@@ -1,3 +1,9 @@
+/*
+Matrikelnummern:
+- 9122564
+- 2227134
+- 3886565
+*/
 package packageObjects
 
 import (
@@ -8,8 +14,8 @@ import (
 
 type Album struct {
 	Name string `json:"comment"`
-	Date    string `json:"date"`
-	Hash	string `json:"hash"`
+	Date string `json:"date"`
+	Hash string `json:"hash"`
 }
 
 type AlbumElement struct {
@@ -37,7 +43,7 @@ func saveAlbumElements(username string, orderElements *[]OrderElement) {
 		panic(err)
 	}
 
-	err = ioutil.WriteFile("static/data/order_" + username + ".json", orderElementsJson, 0644)
+	err = ioutil.WriteFile("static/data/order_"+username+".json", orderElementsJson, 0644)
 	if err != nil {
 		panic(err)
 	}
@@ -50,8 +56,8 @@ func AddAlbumElement(username string, hash string, amount int, format string) *O
 
 	currentOrderElements := *GetAllOrderElementsByUser(username)
 
-	var orderElement = OrderElement {
-		Hash: hash,
+	var orderElement = OrderElement{
+		Hash:   hash,
 		Amount: amount,
 		Format: format,
 	}
@@ -75,7 +81,6 @@ func deleteAlbumElementByHash(username string, hash string) {
 
 	saveOrderElements(username, &newOrderElements)
 }
-
 
 func deleteFullAlbum(username string) {
 	err := os.Remove("static/data/order_" + username + ".json")

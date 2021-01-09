@@ -1,3 +1,9 @@
+/*
+Matrikelnummern:
+- 9122564
+- 2227134
+- 3886565
+*/
 package main
 
 import (
@@ -35,13 +41,10 @@ func main() {
 	http.HandleFunc("/image", packageHandler.ImageHandler)
 	http.HandleFunc("/album", packageHandler.AlbumHandler)
 
-
 	http.HandleFunc("/api", packageHandler.RESTHandler)
 
 	fs := http.FileServer(http.Dir("./static/images"))
 	http.Handle("/images/", http.StripPrefix("/images", fs))
-
-	
 
 	// log.Fatalln(http.ListenAndServe(":8080", nil))
 	// https://stackoverflow.com/questions/10175812/how-to-create-a-self-signed-certificate-with-openssl
