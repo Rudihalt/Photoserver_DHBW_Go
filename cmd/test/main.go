@@ -19,11 +19,22 @@ import (
 func main() {
 
 	packageObjects.SavePhoto("p1.jpg", "yannis", "static/images/p1.jpg", "ABCDEF", "2020:10:29 12:45:23")
-	packageObjects.SavePhoto("p1.jpg", "yannis", "static/images/p1.jpg", "ABCDEFG", "2020:10:29 12:45:23")
-	packageObjects.SavePhoto("p1.jpg", "yannis", "static/images/p1.jpg", "ABCDEFGH", "2020:10:29 12:45:23")
+	packageObjects.SavePhoto("p2.jpg", "yannis", "static/images/p2.jpg", "ABCDEFG", "2020:10:29 12:45:23")
+	packageObjects.SavePhoto("p3.jpg", "yannis", "static/images/p3.jpg", "ABCDEFGH", "2020:10:29 12:45:23")
+	packageObjects.SavePhoto("p4.jpg", "yannis", "static/images/p4.jpg", "ABCDEFGHI", "2020:10:29 12:45:23")
 
 	packageObjects.AddComment("yannis", "hash1", "Das ist ein Test")
 	packageObjects.AddComment("yannis", "hash2", "Das ist ein Test")
+	packageObjects.AddComment("yannis", "hash2", "Das ist ein Test")
+	packageObjects.AddComment("yannis", "hash2", "Das ist ein Test")
+	packageObjects.AddComment("yannis", "hash2", "Das ist ein Test")
+
+
+
+
+
+	packageObjects.CreateUser("admin", "123456")
+
 
 
 
@@ -49,8 +60,84 @@ func main() {
 
 	//log.Fatal(http.ListenAndServe(":8080", nil))
 
-
+	// createStuff()
+	checkStuff()
 }
+
+func createStuff() {
+	user := packageObjects.GetUserByToken("de882c87de882c87de882c87de882c87") // User admin
+
+	photo := *packageObjects.SavePhoto("img1.jpg", user.Username, "images/img1.jpg", "XYZ", "2020-11-10")
+	packageObjects.AddComment(user.Username, photo.Hash, "Kommentar 1")
+	packageObjects.AddComment(user.Username, photo.Hash, "Kommentar 2")
+
+	photo = *packageObjects.SavePhoto("img2.jpg", user.Username, "images/img2.jpg", "XYZXYZ", "2020-11-10")
+	packageObjects.AddComment(user.Username, photo.Hash, "Kommentar 3")
+	packageObjects.AddComment(user.Username, photo.Hash, "Kommentar 4")
+	packageObjects.AddComment(user.Username, photo.Hash, "Kommentar 5")
+
+	photo = *packageObjects.SavePhoto("img3.jpg", user.Username, "images/img3.jpg", "XYZXYZXYZ", "2020-11-10")
+	packageObjects.AddComment(user.Username, photo.Hash, "Kommentar 6")
+
+	packageObjects.SavePhoto("img4.jpg", user.Username, "images/img4.jpg", "XYZXYZXYZXYZ", "2020-11-10")
+}
+
+func checkStuff() {
+	user := packageObjects.GetUserByToken("de882c87de882c87de882c87de882c87") // User admin
+
+	fmt.Println("GetAllPhotosByUser admin")
+	my_photos := *packageObjects.GetAllPhotosByUser(user.Username)
+	printPhotos(my_photos)
+
+	fmt.Println("GetAllPhotosByUser not_available")
+	my_photos = *packageObjects.GetAllPhotosByUser("not_available")
+	printPhotos(my_photos)
+
+	my_photos = *packageObjects.GetAllPhotosByUser(user.Username)
+	all_comments := packageObjects.GetAllCommentsByUser(user.Username)
+
+	fmt.Println("FilterAllCommentsByHash 0")
+	my_comments := packageObjects.FilterAllCommentsByHash(all_comments, my_photos[0].Hash)
+	printComments(*my_comments)
+
+	fmt.Println("FilterAllCommentsByHash 1")
+	my_comments = packageObjects.FilterAllCommentsByHash(all_comments, my_photos[1].Hash)
+	printComments(*my_comments)
+
+	fmt.Println("FilterAllCommentsByHash 2")
+	my_comments = packageObjects.FilterAllCommentsByHash(all_comments, my_photos[2].Hash)
+	printComments(*my_comments)
+
+	fmt.Println("FilterAllCommentsByHash 3")
+	my_comments = packageObjects.FilterAllCommentsByHash(all_comments, my_photos[3].Hash)
+	if my_comments != nil {
+		printComments(*my_comments)
+	} else {
+		fmt.Println("Emtpy Comment List!")
+	}
+}
+
+func printPhotos(photos []packageObjects.Photo) {
+	for _, photo := range photos {
+		printPhoto(photo)
+	}
+}
+
+func printComments(comments []packageObjects.Comment) {
+	for _, comment := range comments {
+		printComment(comment)
+	}
+}
+
+func printPhoto(photo packageObjects.Photo) {
+	fmt.Printf("Name: %s Path: %s Hash: %s Date: %s\n", photo.Name, photo.Path, photo.Hash, photo.Date)
+}
+
+func printComment(comment packageObjects.Comment) {
+	fmt.Printf("Comment: %s Date: %s Hash: %s\n", comment.Comment, comment.Date, comment.Hash)
+}
+
+
 
 // https://gist.github.com/mattetti/5914158
 func SendFileUploadRequest(uri string, path string) {

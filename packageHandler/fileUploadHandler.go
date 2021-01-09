@@ -57,7 +57,8 @@ func FileUploadHandler(w http.ResponseWriter, r *http.Request) {
 	myPhoto := PhotoTest{
 		Name: tempFileName,
 		EXIFDate: ReadExifFromFile(tempFileName),
-		Encoded: str}
+		Encoded: str,
+	}
 
 	log.Println("Name: " + myPhoto.Name + " ExifDate: " + myPhoto.EXIFDate + " Encoded: " + myPhoto.Encoded)
 }

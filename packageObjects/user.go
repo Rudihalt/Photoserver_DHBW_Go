@@ -68,6 +68,13 @@ func CheckPassword(username string, password string) (bool, string) {
 }
 
 func CreateUser(username string, password string) *User {
+	readUsers()
+
+	if GetUserByUsername(username) != nil {
+		return nil
+	}
+
+
 	rand.Seed(time.Now().UnixNano())
 	id := rand.Intn(1000000000)
 	salt := packageTools.CreateSalt()
