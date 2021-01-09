@@ -40,6 +40,7 @@ func main() {
 	http.HandleFunc("/order", packageHandler.OrderHandler)
 	http.HandleFunc("/image", packageHandler.ImageHandler)
 	http.HandleFunc("/album", packageHandler.AlbumHandler)
+	http.HandleFunc("/album_images", packageHandler.AlbumImagesHandler)
 
 	http.HandleFunc("/api", packageHandler.RESTHandler)
 

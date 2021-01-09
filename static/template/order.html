@@ -28,9 +28,16 @@ Matrikelnummern:
                 Amount: {{ .Amount }}
                 <br>
                 Format: {{ .Format }}
+                <br>
+                <a href="/order?delete={{ .ID }}">Delete this Item</a>
             </p>
         </div>
         {{ end }}
     </div>
+    {{ if .OrderElements }}
+    <a href="/order?deleteAll=1">Delete All</a>
+    <br>
+    <a href="/order?order=1">Bilder bestellen</a>
+    {{ end }}
 </body>
 </html>

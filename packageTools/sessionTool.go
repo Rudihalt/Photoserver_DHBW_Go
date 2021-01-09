@@ -50,6 +50,11 @@ func CreateSalt() string {
 	return CreateRandomString()[0:8]
 }
 
+func GetRandomInt() int {
+	rand.Seed(time.Now().UnixNano())
+	return rand.Int()
+}
+
 func CreateRandomString() string {
 	rand.Seed(time.Now().UnixNano())
 	var randInt = rand.Intn(10000000)
