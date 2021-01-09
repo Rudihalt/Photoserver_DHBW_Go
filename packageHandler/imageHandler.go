@@ -81,10 +81,15 @@ func ImageHandler(w http.ResponseWriter, r *http.Request) {
 		allComments := packageObjects.GetAllCommentsByUser(user.Username)
 		comments := packageObjects.FilterAllCommentsByHash(allComments, imageGet)
 
+		var dataComments []packageObjects.Comment
+		if comments != nil {
+			dataComments = *comments
+		}
+
 		imageShowData := ImageShowData{
 			Hash: photo.Hash,
 			Photo: *photo,
-			Comments: *comments,
+			Comments: dataComments,
 		}
 
 		err = ImageTemplate.Execute(w, imageShowData)
