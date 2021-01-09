@@ -33,6 +33,7 @@ func main() {
 	http.HandleFunc("/gallery", packageHandler.GalleryHandler)
 	http.HandleFunc("/order", packageHandler.OrderHandler)
 	http.HandleFunc("/image", packageHandler.ImageHandler)
+	http.HandleFunc("/album", packageHandler.AlbumHandler)
 
 
 	http.HandleFunc("/api", packageHandler.RESTHandler)
