@@ -21,6 +21,15 @@ func RESTHandler(w http.ResponseWriter, r *http.Request) {
 			log.Println("Error Retrieving the File")
 			log.Println(err)
 		}
+		contentType := handler.Header.Get("Content-Type")
+		if contentType != "application/octet-stream" {
+			if contentType != "image/jpeg" {
+				http.Redirect(w, r, "/upload", http.StatusSeeOther)
+				log.Println("No correct jpeg format found:", contentType)
+				return
+			}
+		}
+
 		// read datetime data
 		username := r.FormValue("username")
 		defer file.Close()
@@ -43,7 +52,7 @@ func RESTHandler(w http.ResponseWriter, r *http.Request) {
 
 		date, err := packageTools.GetDateTime(fileBytes)
 		if err != nil {
-			log.Fatalln(err)
+			log.Println(err)
 		}
 		f.Write(fileBytes)
 
@@ -51,5 +60,6 @@ func RESTHandler(w http.ResponseWriter, r *http.Request) {
 		log.Println("username:", username)
 		log.Println("Uploaded File:", handler.Filename)
 		log.Println("date:", date)
+		http.Redirect(w, r, "/my", http.StatusSeeOther)
 	}
 }
