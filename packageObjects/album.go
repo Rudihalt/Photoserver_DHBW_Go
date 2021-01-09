@@ -1,45 +1,85 @@
 package packageObjects
 
+import (
+	"encoding/json"
+	"io/ioutil"
+	"os"
+)
+
 type Album struct {
 	Name string `json:"comment"`
 	Date    string `json:"date"`
 	Hash	string `json:"hash"`
 }
 
-/*
-func GetAllAlbumsAlbumsAlbumsByUser(username string) *[]Comment {
-	var comments []Comment
-	var commentsFile []byte
+type AlbumElement struct {
+	Hash string `json:"hash"`
+}
 
-	commentsFile, err := ioutil.ReadFile("static/data/comments_" + username + ".json")
+func GetAllAlbumElementsByUser(username string) *[]OrderElement {
+	var orderElements []OrderElement
+	var orderElementsFile []byte
 
-	if err != nil {
-		fmt.Println("Neue Datei anlegen: comments_" + username + ".json")
-	}
+	orderElementsFile, err := ioutil.ReadFile("static/data/order_" + username + ".json")
 
-	err = json.Unmarshal(commentsFile, &comments)
+	err = json.Unmarshal(orderElementsFile, &orderElements)
 
 	if err != nil {
 		// panic(err)
 	}
 
-	return &comments
+	return &orderElements
 }
 
-func GetCommentByUserAndHash(comments *[]Comment, hash string) *Comment {
+func saveAlbumElements(username string, orderElements *[]OrderElement) {
+	orderElementsJson, err := json.MarshalIndent(orderElements, "", "\t")
+	if err != nil {
+		panic(err)
+	}
 
-
+	err = ioutil.WriteFile("static/data/order_" + username + ".json", orderElementsJson, 0644)
+	if err != nil {
+		panic(err)
+	}
 }
 
-func saveComments(username string, comments *[]Comment) {
+func AddAlbumElement(username string, hash string, amount int, format string) *OrderElement {
+	if format != "3x4" && format != "16x9" && format != "1x2" {
+		return nil
+	}
 
+	currentOrderElements := *GetAllOrderElementsByUser(username)
+
+	var orderElement = OrderElement {
+		Hash: hash,
+		Amount: amount,
+		Format: format,
+	}
+
+	currentOrderElements = append(currentOrderElements, orderElement)
+
+	saveOrderElements(username, &currentOrderElements)
+
+	return &orderElement
 }
 
-func AddComment(username string, hash string, commentStr string) {
+func deleteAlbumElementByHash(username string, hash string) {
+	var newOrderElements []OrderElement
+	currentOrderElements := *GetAllOrderElementsByUser(username)
 
+	for _, orderElement := range currentOrderElements {
+		if orderElement.Hash != hash {
+			newOrderElements = append(newOrderElements, orderElement)
+		}
+	}
+
+	saveOrderElements(username, &newOrderElements)
 }
 
-func FilterAllCommentsByHash(comments *[]Comment, hash string) *[]Comment {
 
+func deleteFullAlbum(username string) {
+	err := os.Remove("static/data/order_" + username + ".json")
+	if err != nil {
+		panic(err)
+	}
 }
-*/
