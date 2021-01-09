@@ -23,7 +23,7 @@ func RegisterHandler(w http.ResponseWriter, r *http.Request) {
 		var cookie, err = r.Cookie("csrftoken")
 		if cookie != nil {
 			// already logged in
-			http.Redirect(w, r, "/my", http.StatusSeeOther)
+			http.Redirect(w, r, "/gallery", http.StatusSeeOther)
 		}
 		err = NavTemplate.Execute(w, nil)
 		err = RegisterTemplate.Execute(w, nil)

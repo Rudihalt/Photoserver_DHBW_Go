@@ -19,7 +19,7 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
 		var cookie, _ = r.Cookie("csrftoken")
 		if cookie != nil {
-			http.Redirect(w, r, "/my", http.StatusSeeOther)
+			http.Redirect(w, r, "/gallery", http.StatusSeeOther)
 		} else {
 			err := NavTemplate.Execute(w, nil)
 			err = LoginTemplate.Execute(w, nil)
@@ -42,7 +42,7 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 			expiration := time.Now().Add(24 * time.Hour)
 			cookie := http.Cookie{Name: "csrftoken", Value: token, Expires: expiration}
 			http.SetCookie(w, &cookie)
-			http.Redirect(w, r, "/my", http.StatusSeeOther)
+			http.Redirect(w, r, "/gallery", http.StatusSeeOther)
 		} else {
 			Login = LoginData{PasswordNotCorrect: true}
 			err := NavTemplate.Execute(w, nil)
