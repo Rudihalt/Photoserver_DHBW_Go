@@ -40,7 +40,12 @@ Matrikelnummern:
             width: auto;
             padding: 10px 20px;
         }
+        div.success {
+            margin: 0 20%;
+            text-align: center;
+        }
         span.successfull {
+            font-size: larger;
             width: auto;
             padding: 10px 20px;
         }
@@ -63,7 +68,11 @@ Matrikelnummern:
 <body>
 {{ if .SuccessfullyRegistered }}
 <div class="container">
-    <span class="successfull">You have registered successfully. <a href="/my">{{ .Username }}</a></span>
+    <div class="success">
+        <span class="successfull">Du hast dich erfolgreich als <b>{{ .Username }}</b> registriert.</span><br>
+        <span class="successfull">Lade jetzt dein erstes Bild hoch <a href="/upload">Upload</a></span><br>
+        <span class="successfull">oder gelange zu deiner persönlichen Galerie <a href="/gallery">{{ .Username }}</a></span>
+    </div>
 </div>
 {{ else }}
 <form action="/register" method="post">
