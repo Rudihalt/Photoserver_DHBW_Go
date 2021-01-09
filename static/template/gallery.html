@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+    h1 {
+        text-align: center;
+    }
+    h3 {
+        text-align: center;
+    }
+    /* pagination */
+    .pagination {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .pagination a {
+        color: black;
+        float: left;
+        padding: 8px 16px;
+        text-decoration: none;
+    }
+
+    /* gallery */
+    .image-gallery {
+        display: flex;
+        overflow: auto;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    div.gallery {
+        align-items: center;
+        justify-content: center;
+        background-color: #f1f1f1;
+        margin: 10px;
+        border: 2px solid #cccccc;
+        float: left;
+        width: auto;
+        height: auto;
+    }
+    div.gallery:hover {
+        border: 2px solid #026c45;
+    }
+    div.gallery a {
+        color: #000000;
+        text-decoration: none;
+    }
+    div.gallery img {
+        width: 250px;
+        height: 200px;
+    }
+
+    div.title {
+        font-weight: bold;
+        font-size: small;
+        padding: 5px;
+        text-align: center;
+    }
+</style>
+</head>    
+    
+<body>
+
+<h1>{{ .Username }}'s Photogalerie</h1>
+{{ if eq .Amount 0 }}
+<h3>Leider besitzt du noch keine Photos. Willst du welche hochladen? <a href="/upload">upload</a></h3>
+{{ else }}
+<div class="image-gallery">
+    {{ $photos := .Photos }}
+    {{ $amount := .Amount }}
+
+    {{ range $photos }}
+    <div class="gallery">
+          <a target="_blank" href="/image?image={{ .Hash }}">
+              <img src="../{{ .Path }}" alt="{{ .Name }}">
+              <div class="title">{{ .Name }} um {{ .Date }}</div>
+          </a>
+    </div>
+    {{ if ge $amount 3 }}
+    {{ $third := index $photos 2 }}
+    {{ if eq . $third}}
+</div>
+<div class="image-gallery">
+    {{ end }}
+    {{ end }}
+    {{ if ge $amount 6 }}
+    {{ $sixth := index $photos 5 }}
+    {{ if eq . $sixth}}
+</div>
+<div class="image-gallery">
+    {{ end }}
+    {{ end }}
+
+    {{ end }}
+</div>
+
+<div class="pagination">
+    {{ range .Pages }}
+    <a href="?p={{ . }}">{{ . }}</a>
+    {{ end }}
+</div>
+{{ end }}
+
+</body>
+</html>
