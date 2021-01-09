@@ -99,10 +99,7 @@ func CreateUser(username string, password string) *User {
 }
 
 func createSessionToken() string {
-	token := ""
-	for i := 1; i < 5; i++ {
-		token += packageTools.CreateSalt()
-	}
+	token := packageTools.CreateRandomString()[0:24]
 
 	return token
 }
