@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"photoserver/packageObjects"
 	"photoserver/packageTools"
 )
 
@@ -39,7 +40,8 @@ func RESTHandler(w http.ResponseWriter, r *http.Request) {
 
 		//TODO: CHECK IF PHOTO ALREADY EXIST
 
-		f, err := os.Create(filepath.Join(path, handler.Filename))
+		filePath := filepath.Join(path, handler.Filename)
+		f, err := os.Create(filePath)
 		if err != nil {
 			log.Println(f, "was successfully created")
 		}
@@ -60,6 +62,14 @@ func RESTHandler(w http.ResponseWriter, r *http.Request) {
 		log.Println("username:", username)
 		log.Println("Uploaded File:", handler.Filename)
 		log.Println("date:", date)
+
+		photo := packageObjects.SavePhoto(handler.Filename, username, "/images/" + handler.Filename, date)
+		if photo == nil {
+			log.Println("File could not be uploaded! File already exists?")
+		} else {
+			log.Println("File successfully uploaded!")
+		}
+
 		http.Redirect(w, r, "/gallery", http.StatusSeeOther)
 	}
 }

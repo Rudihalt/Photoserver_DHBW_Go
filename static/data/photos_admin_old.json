@@ -22,5 +22,11 @@
 		"path": "images/img4.jpg",
 		"hash": "2b832b1ebc6b185de8203a0307b5b1389365987ec979bd8941afadecb4342dc1",
 		"date": "2020-11-10"
+	},
+	{
+		"name": "Trauben.JPG",
+		"path": "C:\\Users\\Yannis\\go\\src\\photoserver/static/images",
+		"hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+		"date": "2018:11:18"
 	}
 ]
