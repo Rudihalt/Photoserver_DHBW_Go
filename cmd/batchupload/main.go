@@ -35,27 +35,23 @@ func main() {
 	}
 	host += ":" + strconv.Itoa(*port)
 	if !packageTools.CheckHost(host) {
-		log.Println("Could not connect to", host)
-		os.Exit(0)
+		log.Fatalln("Could not connect to", host)
 	}
 
 	// check if directory exist
 	if !packageTools.PathExist(*dataFolder) {
-		log.Println("Data-Folder not found")
-		os.Exit(0)
+		log.Fatalln("Data-Folder not found")
 	}
 
 	// check if user exist
 	if !packageObjects.UserExists(*username) {
-		log.Println("User does not exist")
-		os.Exit(0)
+		log.Fatalln("User does not exist")
 	}
 
 	//check if password is correct
 	ok, _ := packageObjects.CheckPassword(*username, *password)
 	if !ok {
-		log.Println("Password for username", *username, "is not correct")
-		os.Exit(0)
+		log.Fatalln("Password for username", *username, "is not correct")
 	}
 
 	host = "https://" + host + "/api"

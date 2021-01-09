@@ -2,7 +2,7 @@
 <html lang="en">
 <body>
 <form enctype="multipart/form-data" action="/api" method="post">
-    <input type="file" name="file" />
+    <input type="file" name="file" accept="image/jpeg" />
     <input type="hidden" name="username" value="{{ .Username }}" />
     <input type="submit" value="upload" />
 </form>

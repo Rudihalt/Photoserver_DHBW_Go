@@ -73,13 +73,13 @@
     <li><a class="left" href="/">HOME</a></li>
     <li><a class="left" href="/upload">UPLOAD</a></li>
     <li><a class="left" href="/order">ORDERS</a></li>
+    <li><a class="left" href="/album">ALBUMS</a></li>
 
     {{ if .Username }}
     <li class="dropdown right">
-        <a href="/my" class="dropdown-button">{{ .Username }}</a>
+        <a href="/gallery" class="dropdown-button">{{ .Username }}</a>
         <div class="dropdown-content">
             <a href="/logout">LOGOUT</a>
-            <a href="/my">I DONT KNOW</a>
         </div>
     </li>
     {{ else }}

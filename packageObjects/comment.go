@@ -13,6 +13,7 @@ import (
 	"net/http"
 	"os"
 	"photoserver/packageTools"
+	"time"
 )
 
 type Comment struct {
@@ -40,17 +41,6 @@ func GetAllCommentsByUser(username string) *[]Comment {
 	return &comments
 }
 
-func GetCommentByUserAndHash(comments *[]Comment, hash string) *Comment {
-
-	for _, comment := range *comments {
-		if comment.Hash == hash {
-			return &comment
-		}
-	}
-
-	return nil
-}
-
 func saveComments(username string, comments *[]Comment) {
 	commentJson, err := json.MarshalIndent(comments, "", "\t")
 	if err != nil {
@@ -63,18 +53,23 @@ func saveComments(username string, comments *[]Comment) {
 	}
 }
 
-func AddComment(username string, hash string, commentStr string) {
+func AddComment(username string, hash string, commentStr string) *Comment {
 	currentComments := *GetAllCommentsByUser(username)
+
+	currentTime := time.Now()
+	timeFormatted := currentTime.Format("2006.01.02 15:04:05")
 
 	comment := Comment {
 		Comment: commentStr,
-		Date: "heute",
 		Hash: hash,
+		Date: timeFormatted,
 	}
 
 	currentComments = append(currentComments, comment)
 
 	saveComments(username, &currentComments)
+
+	return &comment
 }
 
 func FilterAllCommentsByHash(comments *[]Comment, hash string) *[]Comment {
