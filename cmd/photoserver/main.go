@@ -23,17 +23,13 @@ func main() {
 	log.Println()
 
 	packageHandler.InitTemplates()
-	packageHandler.InitTemplate()
 
 	http.HandleFunc("/", packageHandler.IndexHandler)
 	http.HandleFunc("/login", packageHandler.LoginHandler)
 	http.HandleFunc("/register", packageHandler.RegisterHandler)
 	http.HandleFunc("/logout", packageHandler.LogoutHandler)
-	http.HandleFunc("/my", packageHandler.MyHandler)
 	http.HandleFunc("/diashow", packageHandler.DiashowHandler)
-	http.HandleFunc("/test", packageHandler.TestHandler)
 	http.HandleFunc("/upload", packageHandler.UploadHandler)
-	http.HandleFunc("/up", packageHandler.UpHandler)
 	http.HandleFunc("/gallery", packageHandler.GalleryHandler)
 
 
