@@ -3,6 +3,7 @@ package packageTools
 import (
 	"crypto/sha256"
 	"encoding/hex"
+	"fmt"
 	"io/ioutil"
 	"math/rand"
 	"strconv"
@@ -25,7 +26,11 @@ func HashSHA(str string) string {
 }
 
 func HashSHAFile(filePath string) string {
-	bytes, _ := ioutil.ReadFile(filePath)
+	bytes, err := ioutil.ReadFile(filePath)
+
+	if err != nil {
+		fmt.Println("Datei nicht gefunden!")
+	}
 
 	var hash = sha256.New()
 	hash.Write(bytes)
