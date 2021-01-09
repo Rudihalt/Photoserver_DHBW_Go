@@ -60,6 +60,6 @@ func RESTHandler(w http.ResponseWriter, r *http.Request) {
 		log.Println("username:", username)
 		log.Println("Uploaded File:", handler.Filename)
 		log.Println("date:", date)
-		http.Redirect(w, r, "/my", http.StatusSeeOther)
+		http.Redirect(w, r, "/gallery", http.StatusSeeOther)
 	}
 }
