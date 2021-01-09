@@ -24,10 +24,14 @@ func HashSHA(str string) string {
 }
 
 func CreateSalt() string {
+	return CreateRandomString()[0:8]
+}
+
+func CreateRandomString() string {
 	rand.Seed(time.Now().UnixNano())
 	var randInt = rand.Intn(10000000)
 	var strRandInd = strconv.Itoa(randInt)
-	var salt = HashSHA(strRandInd)[0:8]
+	var salt = HashSHA(strRandInd)
 
 	return salt
 }
