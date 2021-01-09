@@ -12,12 +12,6 @@ import (
 // https://gobyexample.com/sha1-hashes
 // https://austingwalters.com/building-a-web-server-in-go-salting-passwords/
 
-type User struct {
-	Username string
-	Password string
-	Salt     string
-}
-
 func HashSHA(str string) string {
 	var bytes = []byte(str)
 
@@ -36,25 +30,4 @@ func CreateSalt() string {
 	var salt = HashSHA(strRandInd)[0:8]
 
 	return salt
-}
-
-func GetUser(username string) User {
-	return User{
-		Username: "User",
-		Salt:     "SALT",
-		Password: "123456",
-	}
-}
-
-func SaveUser(user User) {
-
-}
-
-func checkPassword(username string, passwordInput string, passwordDatabase string) bool {
-	//var user = GetUser(username)
-	// if user == nil {
-	//	fmt.Println("No User")
-	//}
-
-	return true
 }
