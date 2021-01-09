@@ -8,30 +8,6 @@
 		"Photos": null
 	},
 	{
-		"id": 95373016,
-		"username": "yannis",
-		"password": "c3258aa3a6f46b1f342b282ab321d19ab10f00be5ffec680cd28f2a520ccb48ab",
-		"salt": "96eaa39b",
-		"token": "96eaa39b96eaa39b96eaa39b96eaa39b",
-		"Photos": null
-	},
-	{
-		"id": 762678352,
-		"username": "x1",
-		"password": "58139f22e0a3562450f6966fcd22c0b534c4eea072d4b15e73954143a1291e63",
-		"salt": "2dfefa1a",
-		"token": "2dfefa1a2dfefa1a2dfefa1a2dfefa1a",
-		"Photos": null
-	},
-	{
-		"id": 554829251,
-		"username": "x2",
-		"password": "d93e36d49b82d506cf4258f61c681ef1fbcef16c79a75fede4da49aba3106897",
-		"salt": "4a3e2837",
-		"token": "33ec110633ec110633ec110633ec1106",
-		"Photos": null
-	},
-	{
 		"id": 850020749,
 		"username": "admin",
 		"password": "eddd6432e6df9e57b9d003b7ead529a10836601b825b2f04b85b83b23c30cada",

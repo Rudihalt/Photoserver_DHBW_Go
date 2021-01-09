@@ -1,72 +1,12 @@
 [
 	{
-		"comment": "Kommentar 1",
-		"date": "heute",
-		"hash": "ade099751d2ea9f3393f0f32d20c6b980dd5d3b0989dea599b966ae0d3cd5a1e"
-	},
-	{
-		"comment": "Kommentar 2",
-		"date": "heute",
-		"hash": "ade099751d2ea9f3393f0f32d20c6b980dd5d3b0989dea599b966ae0d3cd5a1e"
-	},
-	{
-		"comment": "Kommentar 3",
-		"date": "heute",
-		"hash": "4fe580987fb341b3414a336518936e12954d3cf8c237ed0f0b7b1a0d69f39fb1"
-	},
-	{
-		"comment": "Kommentar 4",
-		"date": "heute",
-		"hash": "4fe580987fb341b3414a336518936e12954d3cf8c237ed0f0b7b1a0d69f39fb1"
-	},
-	{
-		"comment": "Kommentar 5",
-		"date": "heute",
-		"hash": "4fe580987fb341b3414a336518936e12954d3cf8c237ed0f0b7b1a0d69f39fb1"
-	},
-	{
-		"comment": "Kommentar 6",
-		"date": "heute",
-		"hash": "1da7f752ea9d928c63996f5c8c0cb88d055d3a51e815a91e1f906ff6204ea09b"
+		"comment": "TestKommentar",
+		"date": "2021.01.10 00:49:57",
+		"hash": "94570f30e8d9e853bf50ebfe24fa4bae50343e8b1fe8732e1873b6003ed6dffd"
 	},
 	{
 		"comment": "Test",
-		"date": "2021.01.09 18:04:21",
-		"hash": "4fe580987fb341b3414a336518936e12954d3cf8c237ed0f0b7b1a0d69f39fb1"
-	},
-	{
-		"comment": "Hallo",
-		"date": "2021.01.09 18:04:29",
-		"hash": "4fe580987fb341b3414a336518936e12954d3cf8c237ed0f0b7b1a0d69f39fb1"
-	},
-	{
-		"comment": "Hallo",
-		"date": "2021.01.09 18:10:54",
-		"hash": "ade099751d2ea9f3393f0f32d20c6b980dd5d3b0989dea599b966ae0d3cd5a1e"
-	},
-	{
-		"comment": "penis",
-		"date": "2021.01.09 18:19:44",
-		"hash": "ade099751d2ea9f3393f0f32d20c6b980dd5d3b0989dea599b966ae0d3cd5a1e"
-	},
-	{
-		"comment": "hurensohn",
-		"date": "2021.01.09 18:20:15",
-		"hash": "ade099751d2ea9f3393f0f32d20c6b980dd5d3b0989dea599b966ae0d3cd5a1e"
-	},
-	{
-		"comment": "gefiltert",
-		"date": "2021.01.09 18:20:23",
-		"hash": "ade099751d2ea9f3393f0f32d20c6b980dd5d3b0989dea599b966ae0d3cd5a1e"
-	},
-	{
-		"comment": "******",
-		"date": "2021.01.09 18:20:27",
-		"hash": "ade099751d2ea9f3393f0f32d20c6b980dd5d3b0989dea599b966ae0d3cd5a1e"
-	},
-	{
-		"comment": "\u003cscript\u003ealert('Hi')\u003c/script\u003e",
-		"date": "2021.01.09 18:21:24",
-		"hash": "ade099751d2ea9f3393f0f32d20c6b980dd5d3b0989dea599b966ae0d3cd5a1e"
+		"date": "2021.01.10 00:50:02",
+		"hash": "94570f30e8d9e853bf50ebfe24fa4bae50343e8b1fe8732e1873b6003ed6dffd"
 	}
 ]
