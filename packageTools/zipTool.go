@@ -4,10 +4,53 @@ import (
 	"archive/zip"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"os"
+	"strings"
 )
 
 // https://stackoverflow.com/questions/37869793/how-do-i-zip-a-directory-containing-sub-directories-or-files-in-golang
+
+func CreateZipFile(files []string, username string) {
+	zipFile, err := os.Create("./static/orders/" + username + ".zip")
+	if err != nil {
+		log.Println(err)
+	}
+	defer zipFile.Close()
+
+	writer := zip.NewWriter(zipFile)
+	for _, file := range files {
+		addFile(writer, file)
+	}
+
+	if err != nil {
+		log.Println(err)
+	}
+
+	// Make sure to check the error on Close.
+	err = writer.Close()
+	if err != nil {
+		log.Println(err)
+	}
+}
+
+func addFile(w *zip.Writer, path string) {
+	dat, err := ioutil.ReadFile(path)
+	if err != nil {
+		log.Println(err)
+	}
+	// Add some files to the archive.
+	file := strings.Split(path, "\\")
+	file = strings.Split(file[len(file)-1], "/")
+	f, err := w.Create(file[len(file)-1])
+	if err != nil {
+		log.Println(err)
+	}
+	_, err = f.Write(dat)
+	if err != nil {
+		log.Println(err)
+	}
+}
 
 func ZipWriter() {
 	baseFolder := "/Users/tom/Desktop/testing/"
@@ -66,7 +109,7 @@ func addFiles(w *zip.Writer, basePath, baseInZip string) {
 			fmt.Println("Recursing and Adding SubDir: " + file.Name())
 			fmt.Println("Recursing and Adding SubDir: " + newBase)
 
-			addFiles(w, newBase, baseInZip  + file.Name() + "/")
+			addFiles(w, newBase, baseInZip+file.Name()+"/")
 		}
 	}
 }

@@ -18,6 +18,13 @@ import (
 
 func main() {
 
+	var files = []string{"./static/images/p1.jpg",
+		"./static/images/p2.jpg",
+		"./static/images/p3.JPG"}
+
+	packageTools.CreateZipFile(files, "admin")
+
+	return
 	packageObjects.SavePhoto("p1.jpg", "yannis", "static/images/p1.jpg", "ABCDEF", "2020:10:29 12:45:23")
 	packageObjects.SavePhoto("p2.jpg", "yannis", "static/images/p2.jpg", "ABCDEFG", "2020:10:29 12:45:23")
 	packageObjects.SavePhoto("p3.jpg", "yannis", "static/images/p3.jpg", "ABCDEFGH", "2020:10:29 12:45:23")
@@ -29,14 +36,7 @@ func main() {
 	packageObjects.AddComment("yannis", "hash2", "Das ist ein Test")
 	packageObjects.AddComment("yannis", "hash2", "Das ist ein Test")
 
-
-
-
-
 	packageObjects.CreateUser("admin", "123456")
-
-
-
 
 	/*fmt.Println(ReadExifFromFile("static/images/p3.jpg"))
 
@@ -45,8 +45,6 @@ func main() {
 		log.Println("User already exist!")
 	}
 	packageObjects.SavePhoto("photo.jpg", userPtr.Username, "ABCDEFG", "2020:10:29 13:34:25")*/
-
-
 
 	// path, _ := os.Getwd()
 	// path += "/static/images/p1.jpg"
@@ -136,8 +134,6 @@ func printPhoto(photo packageObjects.Photo) {
 func printComment(comment packageObjects.Comment) {
 	fmt.Printf("Comment: %s Date: %s Hash: %s\n", comment.Comment, comment.Date, comment.Hash)
 }
-
-
 
 // https://gist.github.com/mattetti/5914158
 func SendFileUploadRequest(uri string, path string) {
@@ -276,7 +272,3 @@ func ReadExifFromFile(fileName string) string {
 
 	return re.FindString(checkString)
 }
-
-
-
-
