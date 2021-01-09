@@ -3,6 +3,7 @@ package packageTools
 import (
 	"crypto/sha256"
 	"encoding/hex"
+	"io/ioutil"
 	"math/rand"
 	"strconv"
 	"time"
@@ -14,6 +15,17 @@ import (
 
 func HashSHA(str string) string {
 	var bytes = []byte(str)
+
+	var hash = sha256.New()
+	hash.Write(bytes)
+	var code = hash.Sum(nil)
+	var hashedString = hex.EncodeToString(code)
+
+	return hashedString
+}
+
+func HashSHAFile(filePath string) string {
+	bytes, _ := ioutil.ReadFile(filePath)
 
 	var hash = sha256.New()
 	hash.Write(bytes)

@@ -78,8 +78,8 @@ func GetPhotoByUserAndHash(photos *[]Photo, hash string) *Photo {
 	return nil
 }
 
-func SavePhoto(name string, username string, path string, encoded string, date string) *Photo {
-	hash := packageTools.HashSHA(encoded)
+func SavePhoto(name string, username string, path string, date string) *Photo {
+	hash := packageTools.HashSHAFile(path)
 	currentPhotos := *GetAllPhotosByUser(username)
 
 	if GetPhotoByUserAndHash(&currentPhotos, hash) != nil {
