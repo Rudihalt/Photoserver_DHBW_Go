@@ -54,6 +54,9 @@ func GetPhotoPageAmount(username string) int {
 		return 0
 	}
 	amount := total / 9
+	if total == 9 {
+		return 1
+	}
 	return amount + 1
 }
 
@@ -72,7 +75,7 @@ func GetPhotosForPage(username string, page int) *[]Photo {
 		page = total / photosPerPage
 	}
 
-	start := page*photosPerPage - 1
+	start := page * photosPerPage
 	if page == 0 {
 		start = 0
 	}
