@@ -44,8 +44,8 @@ Matrikelnummern:
 
 <div id="image_gallery_1">
     <div class="gallery">
-        <a href="../images/p1.jpg">
-        <img src="../images/p1.jpg" alt="Bild kann nicht geladen werden" title="Hier klicken für Originalgröße">
+        <a href="{{ .Photo.Path }}">
+        <img src="{{ .Photo.Path }}" alt="{{ .Photo.Name }}" title="Hier klicken für Originalgröße">
         </a>
         <div>
             {{ range .Comments }}
