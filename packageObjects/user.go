@@ -14,7 +14,6 @@ type User struct {
 	Password string   `json:"password"`
 	Salt     string   `json:"salt"`
 	Token    string   `json:"token"`
-	Photos   []string `photos:"photos"`
 }
 
 var users *[]User
