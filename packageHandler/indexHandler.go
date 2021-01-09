@@ -34,7 +34,7 @@ func InitTemplates() {
 	LoginTemplate, err = template.ParseFiles("static/template/login.html")
 	RegisterTemplate, err = template.ParseFiles("static/template/register.html")
 	UploadTemplate, err = template.ParseFiles("static/template/upload.html")
-	GalleryTemplate, err = template.ParseFiles("static/template/paging.html")
+	GalleryTemplate, err = template.ParseFiles("static/template/gallery.html")
 	DiashowTemplate, err = template.ParseFiles("static/template/diashow.html")
 	OrderTemplate, err = template.ParseFiles("static/template/order.html")
 	ImageTemplate, err = template.ParseFiles("static/template/image_com.html")

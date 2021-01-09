@@ -16,10 +16,10 @@ import (
 )
 
 type Photo struct {
-	Name     string `json:"name"`
-	Path     string `json:"path"`
-	Hash     string `json:"hash"`
-	Date     string `json:"date"`
+	Name string `json:"name"`
+	Path string `json:"path"`
+	Hash string `json:"hash"`
+	Date string `json:"date"`
 }
 
 func GetAllPhotosByUser(username string) *[]Photo {
@@ -41,7 +41,18 @@ func GetAllPhotosByUser(username string) *[]Photo {
 	return &photos
 }
 
-func getPhotosForPage(username string, page int) *[]Photo{
+func GetPhotoPageAmount(username string) int {
+	photos := *GetAllPhotosByUser(username)
+	total := len(photos)
+	if total == 0 {
+		return 0
+	}
+	amount := total / 9
+	return amount + 1
+}
+
+func GetPhotosForPage(username string, page int) *[]Photo {
+	page--
 	photos := *GetAllPhotosByUser(username)
 	total := len(photos)
 
@@ -51,11 +62,14 @@ func getPhotosForPage(username string, page int) *[]Photo{
 
 	photosPerPage := 9
 
-	if (total / photosPerPage) + 1 > page {
+	if (total/photosPerPage)+1 < page {
 		page = total / photosPerPage
 	}
 
-	start := page * photosPerPage
+	start := page*photosPerPage - 1
+	if page == 0 {
+		start = 0
+	}
 	end := start + photosPerPage
 
 	if end > total {
@@ -90,11 +104,11 @@ func SavePhoto(name string, username string, path string, date string) *Photo {
 		return nil
 	}
 
-	photo := Photo {
-		Name:     name,
-		Path:     path,
-		Hash:     hash,
-		Date:     date,
+	photo := Photo{
+		Name: name,
+		Path: path,
+		Hash: hash,
+		Date: date,
 	}
 
 	currentPhotos = append(currentPhotos, photo)
@@ -110,12 +124,11 @@ func savePhotos(username string, photos *[]Photo) {
 		panic(err)
 	}
 
-	err = ioutil.WriteFile("static/data/photos_" + username + ".json", photoJson, 0644)
+	err = ioutil.WriteFile("static/data/photos_"+username+".json", photoJson, 0644)
 	if err != nil {
 		panic(err)
 	}
 }
-
 
 func GetPhotoByUserAndHash2(username string, hash string) {
 	lruCache := packageTools.GetGlobalCache()
@@ -137,7 +150,6 @@ func GetPhotoByUserAndHash2(username string, hash string) {
 func getPhotoByIDDB(id int) string {
 	return "not implemented"
 }
-
 
 // https://www.sanarias.com/blog/1214PlayingwithimagesinHTTPresponseingolang
 
