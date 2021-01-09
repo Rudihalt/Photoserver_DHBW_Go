@@ -61,8 +61,19 @@ Matrikelnummern:
     div.title {
         font-weight: bold;
         font-size: small;
-        padding: 5px;
+        padding: 0 5px 5px;
         text-align: center;
+    }
+    div.title div.name {
+        margin: 0 auto;
+        width: 200px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    div.title div.date {
+        margin: 0 auto;
+        width: 200px;
     }
 </style>
 </head>    
@@ -81,7 +92,7 @@ Matrikelnummern:
     <div class="gallery">
           <a target="_blank" href="/image?image={{ .Hash }}">
               <img src="../{{ .Path }}" alt="{{ .Name }}">
-              <div class="title">{{ .Name }} um {{ .Date }}</div>
+              <div class="title"><div class="name">{{ .Name }}</div><div class="date"> um {{ .Date }}</div></div>
           </a>
     </div>
     {{ if ge $amount 3 }}
