@@ -24,6 +24,35 @@ Matrikelnummern:
             max-height: 400px;
         }
 
+        /* The container <div> - needed to position the dropdown content */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        /* Dropdown Content (Hidden by Default) */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        /* Links inside the dropdown */
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        /* Show the dropdown menu on hover */
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
 
         #image_gallery_1{
             display: flex;
@@ -96,7 +125,11 @@ Matrikelnummern:
         <input type="text" placeholder="Enter Amount" name="orderAmount" required>
         <br>
         <label for="orderFormat"><b>Format</b></label>
-        <input type="text" placeholder="Enter Format" name="orderFormat" required>
+        <select name="orderFormat">
+                <option selected value="3x4" >3x4</option>
+                <option value="16x9">16x9</option>
+                <option value="1x2">1x2</option>
+        </select>
         <br>
         <button type="submit">Add to Order</button>
     </div>

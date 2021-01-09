@@ -10,9 +10,11 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"os"
+	"photoserver/packageTools"
 )
 
 type OrderElement struct {
+	ID int        `json:"id"`
 	Hash   string `json:"hash"`
 	Amount int    `json:"amount"`
 	Format string `json:"format"`
@@ -53,6 +55,7 @@ func AddOrderElement(username string, hash string, amount int, format string) *O
 	currentOrderElements := *GetAllOrderElementsByUser(username)
 
 	var orderElement = OrderElement{
+		ID: packageTools.GetRandomInt(),
 		Hash:   hash,
 		Amount: amount,
 		Format: format,
@@ -65,12 +68,12 @@ func AddOrderElement(username string, hash string, amount int, format string) *O
 	return &orderElement
 }
 
-func deleteOrderElementByHash(username string, hash string) {
+func DeleteOrderElementByHash(username string, id int) {
 	var newOrderElements []OrderElement
 	currentOrderElements := *GetAllOrderElementsByUser(username)
 
 	for _, orderElement := range currentOrderElements {
-		if orderElement.Hash != hash {
+		if orderElement.ID != id {
 			newOrderElements = append(newOrderElements, orderElement)
 		}
 	}
@@ -83,7 +86,7 @@ func removeElementByIndex(slice []int, s int) []int {
 	return append(slice[:s], slice[s+1:]...)
 }
 
-func deleteFullOrder(username string) {
+func DeleteFullOrder(username string) {
 	err := os.Remove("static/data/order_" + username + ".json")
 	if err != nil {
 		panic(err)

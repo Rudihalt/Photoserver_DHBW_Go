@@ -25,7 +25,7 @@ func DiashowHandler(w http.ResponseWriter, r *http.Request) {
 		NavData = NavBarData{Username: user.Username}
 		err := NavTemplate.Execute(w, NavData)
 
-		err = DiashowTemplate.Execute(w, NavData)
+
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
@@ -43,8 +43,8 @@ func DiashowHandler(w http.ResponseWriter, r *http.Request) {
 		},
 	}
 
-	err := NavTemplate.Execute(w, nil)
-	err = DiashowTemplate.Execute(w, anus)
+
+	err := DiashowTemplate.Execute(w, anus)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
