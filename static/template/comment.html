@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+<form action="/image" method="post">
+
+    <div>
+        <label for="comment"><b>Kommentar</b></label>
+        <input type="text" placeholder="Enter Comment" name="comment" required>
+
+        <button type="submit">Kommentieren</button>
+    </div>
+
+    <div>
+        {{ .range }}
+            <div>
+                <p>
+                   {{ .Comment }}
+                    <br>
+                    am {{ .Date }}
+                </p>
+            </div>
+        {{ end }}
+    </div>
+</form>
+</body>
+</html>
