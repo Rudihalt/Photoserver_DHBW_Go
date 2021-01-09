@@ -56,19 +56,48 @@
 </div>
 
 
+<br>
+<hr>
 
+<h3>
+    Write a comment here;
+</h3>
 
 <form action="/image?image={{ .Hash }}" method="post">
 
     <div id="comment_section">
         <label for="comment"><b>Kommentar</b></label>
         <input type="text" placeholder="Enter Comment" name="comment" required>
-
+        <br>
         <button type="submit">Kommentieren</button>
     </div>
 
 
 </form>
+
+<br>
+<hr>
+
+<h3>
+    Add this photo to OrderList here:
+</h3>
+
+
+<form action="/image?image={{ .Hash }}" method="post">
+
+    <div>
+        <label for="orderAmount"><b>Amount</b></label>
+        <input type="text" placeholder="Enter Amount" name="orderAmount" required>
+        <br>
+        <label for="orderFormat"><b>Format</b></label>
+        <input type="text" placeholder="Enter Format" name="orderFormat" required>
+        <br>
+        <button type="submit">Add to Order</button>
+    </div>
+
+
+</form>
+
 
 </body>
 </html>

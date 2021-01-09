@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/http"
 	"photoserver/packageObjects"
+	"strconv"
 )
 
 type ImageShowData struct {
@@ -51,6 +52,28 @@ func ImageHandler(w http.ResponseWriter, r *http.Request) {
 					log.Println("Error adding comment")
 				} else {
 					log.Println("Successfully adding comment")
+				}
+			}
+
+			orderAmount := r.FormValue("orderAmount")
+			log.Println("orderAmount:", orderAmount)
+
+			orderFormat := r.FormValue("orderFormat")
+			log.Println("orderFormat:", orderFormat)
+
+			if orderAmount != "" && len(orderAmount) > 0 {
+
+				amount, err := strconv.Atoi(orderAmount)
+				if err != nil {
+					log.Println("Error Amount no number")
+				}
+
+				orderElement := packageObjects.AddOrderElement(user.Username, imageGet, amount, orderFormat)
+
+				if orderElement == nil {
+					log.Println("Error adding order")
+				} else {
+					log.Println("Successfully adding order")
 				}
 			}
 		}

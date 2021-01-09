@@ -18,13 +18,22 @@ import (
 
 func main() {
 
+	dir, _ := os.Getwd()
+	fmt.Println(packageTools.HashSHAFile(dir + "/static" + "/images/p1.jpg"))
+	fmt.Println(packageTools.HashSHAFile(dir + "/static" + "/images/p2.jpg"))
+
+	/*
 	var files = []string{"./static/images/p1.jpg",
 		"./static/images/p2.jpg",
 		"./static/images/p3.JPG"}
 
 	packageTools.CreateZipFile(files, "admin")
 
+
+	 */
+
 	return
+	/*
 	packageObjects.SavePhoto("p1.jpg", "yannis", "static/images/p1.jpg", "ABCDEF", "2020:10:29 12:45:23")
 	packageObjects.SavePhoto("p2.jpg", "yannis", "static/images/p2.jpg", "ABCDEFG", "2020:10:29 12:45:23")
 	packageObjects.SavePhoto("p3.jpg", "yannis", "static/images/p3.jpg", "ABCDEFGH", "2020:10:29 12:45:23")
@@ -37,6 +46,9 @@ func main() {
 	packageObjects.AddComment("yannis", "hash2", "Das ist ein Test")
 
 	packageObjects.CreateUser("admin", "123456")
+
+
+	 */
 
 	/*fmt.Println(ReadExifFromFile("static/images/p3.jpg"))
 
@@ -59,10 +71,11 @@ func main() {
 	//log.Fatal(http.ListenAndServe(":8080", nil))
 
 	// createStuff()
-	checkStuff()
+	//checkStuff()
 }
 
 func createStuff() {
+	/*
 	user := packageObjects.GetUserByToken("de882c87de882c87de882c87de882c87") // User admin
 
 	photo := *packageObjects.SavePhoto("img1.jpg", user.Username, "images/img1.jpg", "XYZ", "2020-11-10")
@@ -78,6 +91,7 @@ func createStuff() {
 	packageObjects.AddComment(user.Username, photo.Hash, "Kommentar 6")
 
 	packageObjects.SavePhoto("img4.jpg", user.Username, "images/img4.jpg", "XYZXYZXYZXYZ", "2020-11-10")
+	 */
 }
 
 func checkStuff() {
