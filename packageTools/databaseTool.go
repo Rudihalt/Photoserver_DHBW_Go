@@ -1,3 +1,9 @@
+/*
+Matrikelnummern:
+- 9122564
+- 2227134
+- 3886565
+*/
 package packageTools
 
 import "os"
@@ -15,7 +21,7 @@ func PathExist(path string) bool {
 func CreateDirIfNotExists(path string) bool {
 	if PathExist(path) {
 		os.Mkdir(path, os.ModeDir)
-		return true;
+		return true
 	}
 	return false
 }
@@ -31,16 +37,16 @@ func getImageFolder() string {
 }
 
 func getAlbumsFolder() string {
-	retStr :=  dataFolder + "/albums/"
+	retStr := dataFolder + "/albums/"
 	return retStr
 }
 
 func getOrderFolder() string {
-	retStr :=  dataFolder + "/order/"
+	retStr := dataFolder + "/order/"
 	return retStr
 }
 
 func getUserFile() string {
-	retStr :=  dataFolder + "/images/user.json"
+	retStr := dataFolder + "/images/user.json"
 	return retStr
 }

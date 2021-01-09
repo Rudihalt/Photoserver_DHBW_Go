@@ -1,3 +1,9 @@
+/*
+Matrikelnummern:
+- 9122564
+- 2227134
+- 3886565
+*/
 package packageObjects
 
 import (
@@ -19,7 +25,7 @@ import (
 type Comment struct {
 	Comment string `json:"comment"`
 	Date    string `json:"date"`
-	Hash	string `json:"hash"`
+	Hash    string `json:"hash"`
 }
 
 func GetAllCommentsByUser(username string) *[]Comment {
@@ -47,7 +53,7 @@ func saveComments(username string, comments *[]Comment) {
 		panic(err)
 	}
 
-	err = ioutil.WriteFile("static/data/comments_" + username + ".json", commentJson, 0644)
+	err = ioutil.WriteFile("static/data/comments_"+username+".json", commentJson, 0644)
 	if err != nil {
 		panic(err)
 	}
@@ -59,10 +65,10 @@ func AddComment(username string, hash string, commentStr string) *Comment {
 	currentTime := time.Now()
 	timeFormatted := currentTime.Format("2006.01.02 15:04:05")
 
-	comment := Comment {
+	comment := Comment{
 		Comment: commentStr,
-		Hash: hash,
-		Date: timeFormatted,
+		Hash:    hash,
+		Date:    timeFormatted,
 	}
 
 	currentComments = append(currentComments, comment)
@@ -87,21 +93,6 @@ func FilterAllCommentsByHash(comments *[]Comment, hash string) *[]Comment {
 	return &hashComments
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 func GetPhotoByIDX(id int) {
 	lruCache := packageTools.GetGlobalCache()
 	var cache = *lruCache
@@ -118,9 +109,6 @@ func GetPhotoByIDX(id int) {
 
 	log.Println(encoded)
 }
-
-
-
 
 // https://www.sanarias.com/blog/1214PlayingwithimagesinHTTPresponseingolang
 

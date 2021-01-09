@@ -1,3 +1,9 @@
+/*
+Matrikelnummern:
+- 9122564
+- 2227134
+- 3886565
+*/
 package packageObjects
 
 import (
@@ -7,8 +13,8 @@ import (
 )
 
 type OrderElement struct {
-	Hash string `json:"hash"`
-	Amount int `json:"amount"`
+	Hash   string `json:"hash"`
+	Amount int    `json:"amount"`
 	Format string `json:"format"`
 }
 
@@ -33,7 +39,7 @@ func saveOrderElements(username string, orderElements *[]OrderElement) {
 		panic(err)
 	}
 
-	err = ioutil.WriteFile("static/data/order_" + username + ".json", orderElementsJson, 0644)
+	err = ioutil.WriteFile("static/data/order_"+username+".json", orderElementsJson, 0644)
 	if err != nil {
 		panic(err)
 	}
@@ -46,8 +52,8 @@ func AddOrderElement(username string, hash string, amount int, format string) *O
 
 	currentOrderElements := *GetAllOrderElementsByUser(username)
 
-	var orderElement = OrderElement {
-		Hash: hash,
+	var orderElement = OrderElement{
+		Hash:   hash,
 		Amount: amount,
 		Format: format,
 	}
@@ -83,4 +89,3 @@ func deleteFullOrder(username string) {
 		panic(err)
 	}
 }
-
