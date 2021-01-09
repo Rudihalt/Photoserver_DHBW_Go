@@ -3,7 +3,6 @@ package packageObjects
 import (
 	"encoding/json"
 	"io/ioutil"
-	"log"
 	"math/rand"
 	"photoserver/packageTools"
 	"time"
@@ -90,18 +89,10 @@ func CreateUser(username string, password string) *User {
 	}
 
 
-	test := *GetAllUsers()
+	currentUsers := *GetAllUsers()
+	currentUsers = append(currentUsers, user)
 
-	log.Println("1: " + string(len(test)))
-
-	newlist := append(test, user)
-
-	log.Println("2: " + string(len(test)))
-
-	SetAllUsers(&newlist)
-
-	log.Println("3: " + string(len(test)))
-
+	SetAllUsers(&currentUsers)
 	saveUsers()
 
 	return &user
