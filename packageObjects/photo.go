@@ -3,9 +3,12 @@ package packageObjects
 import (
 	"bytes"
 	"encoding/base64"
+	"encoding/json"
+	"fmt"
 	"html/template"
 	"image"
 	"image/jpeg"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
@@ -13,36 +16,113 @@ import (
 )
 
 type Photo struct {
-	Name string `json:name`
-	userID int `json:userID`
-	Encoded string `json:encoded`
-	exifDate string `json:exifDate`
+	Name     string `json:"name"`
+	Path     string `json:"path"`
+	Hash     string `json:"hash"`
+	Date     string `json:"date"`
 }
 
-func addNewPhotoToDB(name string, userid int, encoded string, exifdate string) *Photo {
-	photo := Photo{
-		Name: name,
-		userID: userid,
-		Encoded: encoded,
-		exifDate: exifdate,
+func GetAllPhotosByUser(username string) *[]Photo {
+	var photos []Photo
+	var photosFile []byte
+
+	photosFile, err := ioutil.ReadFile("static/data/photos_" + username + ".json")
+
+	if err != nil {
+		fmt.Println("Neue Datei anlegen: photos_" + username + ".json")
 	}
 
+	err = json.Unmarshal(photosFile, &photos)
 
+	if err != nil {
+		// panic(err)
+	}
 
+	return &photos
+}
+
+func getPhotosForPage(username string, page int) *[]Photo{
+	photos := *GetAllPhotosByUser(username)
+	total := len(photos)
+
+	if total == 0 {
+		return nil
+	}
+
+	photosPerPage := 3
+
+	if (total / photosPerPage) + 1 > page {
+		page = total / photosPerPage
+	}
+
+	start := page * photosPerPage
+	end := start + photosPerPage
+
+	if end > total {
+		end = total
+	}
+
+	part := photos[start:end]
+
+	return &part
+}
+
+func GetPhotoByUserAndHash(photos *[]Photo, hash string) *Photo {
+
+	for _, photo := range *photos {
+		if photo.Hash == hash {
+			return &photo
+		}
+	}
+
+	return nil
+}
+
+func SavePhoto(name string, username string, path string, encoded string, date string) *Photo {
+	hash := packageTools.HashSHA(encoded)
+	currentPhotos := *GetAllPhotosByUser(username)
+
+	if GetPhotoByUserAndHash(&currentPhotos, hash) != nil {
+		return nil
+	}
+
+	photo := Photo {
+		Name:     name,
+		Path:     path,
+		Hash:     hash,
+		Date:     date,
+	}
+
+	currentPhotos = append(currentPhotos, photo)
+
+	savePhotos(username, &currentPhotos)
 
 	return &photo
 }
 
-func GetPhotoByID(id int) {
+func savePhotos(username string, photos *[]Photo) {
+	photoJson, err := json.MarshalIndent(photos, "", "\t")
+	if err != nil {
+		panic(err)
+	}
+
+	err = ioutil.WriteFile("static/data/photos_" + username + ".json", photoJson, 0644)
+	if err != nil {
+		panic(err)
+	}
+}
+
+
+func GetPhotoByUserAndHash2(username string, hash string) {
 	lruCache := packageTools.GetGlobalCache()
 	var cache = *lruCache
 
-	encoded := cache.Get(id)
+	encoded := cache.Get(2)
 
 	if encoded == "" {
 		log.Println(encoded)
 
-		encoded = getPhotoByIDDB(id)
+		encoded = getPhotoByIDDB(2)
 	}
 
 	// todo: load other info from json file an
@@ -53,7 +133,6 @@ func GetPhotoByID(id int) {
 func getPhotoByIDDB(id int) string {
 	return "not implemented"
 }
-
 
 
 // https://www.sanarias.com/blog/1214PlayingwithimagesinHTTPresponseingolang
@@ -90,7 +169,7 @@ func GetImageByName(fileName string) *image.Image {
 
 	img, fmtName, err := image.Decode(f)
 	if err != nil {
-		// Handle error
+		panic(err)
 	}
 
 	log.Println("fmtName: " + fmtName)
