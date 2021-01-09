@@ -10,6 +10,7 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"math/rand"
+	"os"
 	"photoserver/packageTools"
 	"time"
 )
@@ -35,7 +36,10 @@ func SetAllUsers(usersParam *[]User) {
 func readUsers() {
 	userData, err := ioutil.ReadFile("static/data/users.json")
 	if err != nil {
-		panic(err)
+		f, _ := os.Create("static/data/users.json")
+		f.WriteString("[]")
+		f.Close()
+		userData, _ = ioutil.ReadFile("static/data/users.json")
 	}
 
 	err = json.Unmarshal(userData, &users)
