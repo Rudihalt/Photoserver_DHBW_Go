@@ -1,3 +1,9 @@
+/*
+Matrikelnummern:
+- 9122564
+- 2227134
+- 3886565
+*/
 package packageHandler
 
 import (
@@ -21,7 +27,7 @@ func OrderHandler(w http.ResponseWriter, r *http.Request) {
 
 		orderElements := packageObjects.GetAllOrderElementsByUser(user.Username)
 
-		orderViewData := OrderViewData {
+		orderViewData := OrderViewData{
 			OrderElements: *orderElements,
 		}
 

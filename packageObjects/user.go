@@ -1,3 +1,9 @@
+/*
+Matrikelnummern:
+- 9122564
+- 2227134
+- 3886565
+*/
 package packageObjects
 
 import (
@@ -9,11 +15,11 @@ import (
 )
 
 type User struct {
-	Id       int      `json:"id"`
-	Username string   `json:"username"`
-	Password string   `json:"password"`
-	Salt     string   `json:"salt"`
-	Token    string   `json:"token"`
+	Id       int    `json:"id"`
+	Username string `json:"username"`
+	Password string `json:"password"`
+	Salt     string `json:"salt"`
+	Token    string `json:"token"`
 }
 
 var users *[]User
@@ -72,7 +78,6 @@ func CreateUser(username string, password string) *User {
 		return nil
 	}
 
-
 	rand.Seed(time.Now().UnixNano())
 	id := rand.Intn(1000000000)
 	salt := packageTools.CreateSalt()
@@ -86,7 +91,6 @@ func CreateUser(username string, password string) *User {
 		Salt:     salt,
 		Token:    token,
 	}
-
 
 	currentUsers := *GetAllUsers()
 	currentUsers = append(currentUsers, user)

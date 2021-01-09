@@ -1,10 +1,16 @@
+/*
+Matrikelnummern:
+- 9122564
+- 2227134
+- 3886565
+*/
 package packageTools
 
 var cache *LRUCache
 
 type Qnode struct {
-	key int
-	value string
+	key        int
+	value      string
 	prev, next *Qnode
 }
 
