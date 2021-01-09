@@ -17,7 +17,7 @@ var UploadTemplate *template.Template
 var GalleryTemplate *template.Template
 var DiashowTemplate *template.Template
 var OrderTemplate *template.Template
-
+var ImageTemplate *template.Template
 
 type NavBarData struct {
 	Username string
@@ -37,6 +37,7 @@ func InitTemplates() {
 	GalleryTemplate, err = template.ParseFiles("static/template/paging.html")
 	DiashowTemplate, err = template.ParseFiles("static/template/diashow.html")
 	OrderTemplate, err = template.ParseFiles("static/template/order.html")
+	ImageTemplate, err = template.ParseFiles("static/template/image_com.html")
 	if err != nil {
 		log.Fatalln(err)
 	}
