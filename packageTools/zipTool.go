@@ -11,6 +11,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"path"
 	"strconv"
 	"strings"
 )
@@ -24,11 +25,11 @@ type ZipItem struct {
 
 // https://stackoverflow.com/questions/37869793/how-do-i-zip-a-directory-containing-sub-directories-or-files-in-golang
 
-func CreateZipFile(files []ZipItem, username string) error {
+func CreateZipFile(files []ZipItem, username string) (string, error) {
 	zipFile, err := os.Create("./static/orders/" + username + ".zip")
 	if err != nil {
 		log.Println(err)
-		return err
+		return "", err
 	}
 	defer zipFile.Close()
 
@@ -48,9 +49,11 @@ func CreateZipFile(files []ZipItem, username string) error {
 	err = writer.Close()
 	if err != nil {
 		log.Println(err)
-		return err
+		return "", err
 	}
-	return nil
+	dir, _ := os.Getwd()
+	path := path.Join(dir, zipFile.Name())
+	return path, nil
 }
 
 func addFile(w *zip.Writer, path string, name string) {
