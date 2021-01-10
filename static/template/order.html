@@ -11,6 +11,9 @@ Matrikelnummern:
         .testborder {
             border-style: solid;
         }
+        img {
+            max-height: 100px;
+        }
     </style>
 </head>
 <body>
@@ -36,7 +39,7 @@ Matrikelnummern:
         </div>
         {{ end }}
     </div>
-    {{ if .OrderElements }}
+    {{ if .OrderElementsData }}
     <a href="/order?deleteAll=1">Delete All</a>
     <br>
     <a href="/order?order=1">Bilder bestellen</a>
