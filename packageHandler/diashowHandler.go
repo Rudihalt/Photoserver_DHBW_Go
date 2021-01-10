@@ -30,7 +30,7 @@ func DiashowHandler(w http.ResponseWriter, r *http.Request) {
 
 		photoLength := len(*allPhotos)
 
-		if photoLength < amountShowPhotos && photoLength != 0 {
+		if photoLength < amountShowPhotos {
 			lastPhotos = *allPhotos
 		} else {
 			lastPhotos = (*allPhotos)[photoLength - amountShowPhotos: photoLength]
