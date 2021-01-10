@@ -11,6 +11,7 @@ import (
 	"log"
 	"net/http"
 	"photoserver/packageHandler"
+	"photoserver/packageTools"
 	"strconv"
 )
 
@@ -28,6 +29,7 @@ func main() {
 	log.Printf("Folgende Parameter werden verwendet: Port: " + strconv.Itoa(*port) + " Certificates: " + *certificates + " Data: " + *data)
 	log.Println()
 
+	packageTools.Init()
 	packageHandler.InitTemplates()
 
 	http.HandleFunc("/", packageHandler.IndexHandler)
