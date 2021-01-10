@@ -47,6 +47,9 @@ func main() {
 	fs := http.FileServer(http.Dir("./static/images"))
 	http.Handle("/images/", http.StripPrefix("/images", fs))
 
+	// https://stackoverflow.com/questions/25552107/how-to-serve-static-files-with-basic-authentication
+	// Wer Lust hat, kann den FileServer vor fremden Zugriffen sichern. Heute wird das nichts mehr.
+
 	// log.Fatalln(http.ListenAndServe(":8080", nil))
 	// https://stackoverflow.com/questions/10175812/how-to-create-a-self-signed-certificate-with-openssl
 	// Command: openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365
@@ -55,4 +58,13 @@ func main() {
 	// Result Command: openssl req -nodes -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365
 	log.Fatalln(http.ListenAndServeTLS(":"+strconv.Itoa(*port), *certificates+"/cert.pem", *certificates+"/key.pem", nil))
 
+}
+
+func handleFileServer(dir, prefix string) http.HandlerFunc {
+	fs := http.FileServer(http.Dir(dir))
+	realHandler := http.StripPrefix(prefix, fs).ServeHTTP
+	return func(w http.ResponseWriter, req *http.Request) {
+		log.Println(req.URL)
+		realHandler(w, req)
+	}
 }

@@ -40,5 +40,17 @@
 		"path": "/images/Trauben.JPG",
 		"hash": "9072a855573c3d305b761c246a5819dcab951ef011f3160ae2741ece5fbb0fc5",
 		"date": "2018:11:18"
+	},
+	{
+		"name": "20201022_192337.jpg",
+		"path": "/images/09a5fee1b9233ecc8c5ef25bf5030066bf43103690a15b3a0847867a59aad542.jpg",
+		"hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+		"date": "2020:10:22"
+	},
+	{
+		"name": "IMG_2131.jpeg",
+		"path": "/images/c0c2b40143ef318719cc7c404d9e85025cc636eeef4ae6377155f1b1629554ae.jpg",
+		"hash": "c0c2b40143ef318719cc7c404d9e85025cc636eeef4ae6377155f1b1629554ae",
+		"date": "2020:10:25"
 	}
 ]
