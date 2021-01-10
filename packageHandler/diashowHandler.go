@@ -11,10 +11,6 @@ import (
 	"photoserver/packageObjects"
 )
 
-type testdreck struct {
-	Path string
-}
-
 func DiashowHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
 	var cookie, _ = r.Cookie("csrftoken")
@@ -25,27 +21,25 @@ func DiashowHandler(w http.ResponseWriter, r *http.Request) {
 		NavData = NavBarData{Username: user.Username}
 		err := NavTemplate.Execute(w, NavData)
 
+		// Idee, um die letzten hinzugefügten Fotos in Diashow anzuzuzeigen: Jan Dietzel
+		allPhotos := packageObjects.GetAllPhotosByUser(user.Username)
+
+		amountShowPhotos := 5
+
+		var lastPhotos []packageObjects.Photo
+
+		photoLength := len(*allPhotos)
+
+		if photoLength < amountShowPhotos && photoLength != 0 {
+			lastPhotos = *allPhotos
+		} else {
+			lastPhotos = (*allPhotos)[photoLength - amountShowPhotos: photoLength]
+		}
+
+		err = DiashowTemplate.Execute(w, lastPhotos)
 
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
-	}
-
-	var anus = []testdreck{
-		{
-			Path: "/images/p1.jpg",
-		},
-		{
-			Path: "/images/p2.jpg",
-		},
-		{
-			Path: "/images/p3.jpg",
-		},
-	}
-
-
-	err := DiashowTemplate.Execute(w, anus)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 }
