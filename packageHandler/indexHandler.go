@@ -11,6 +11,7 @@ import (
 	"log"
 	"net/http"
 	"photoserver/packageObjects"
+	"photoserver/packageTools"
 )
 
 var NavData NavBarData
@@ -35,15 +36,15 @@ type IndexViewData struct {
 
 func InitTemplates() {
 	var err error
-	IndexTemplate, err = template.ParseFiles("static/template/index.html")
-	NavTemplate, err = template.ParseFiles("static/template/nav.html")
-	LoginTemplate, err = template.ParseFiles("static/template/login.html")
-	RegisterTemplate, err = template.ParseFiles("static/template/register.html")
-	UploadTemplate, err = template.ParseFiles("static/template/upload.html")
-	GalleryTemplate, err = template.ParseFiles("static/template/gallery.html")
-	DiaShowTemplate, err = template.ParseFiles("static/template/diashow.html")
-	OrderTemplate, err = template.ParseFiles("static/template/order.html")
-	ImageTemplate, err = template.ParseFiles("static/template/image_com.html")
+	IndexTemplate, err = template.ParseFiles(packageTools.GetWD() + "/static/template/index.html")
+	NavTemplate, err = template.ParseFiles(packageTools.GetWD() + "/static/template/nav.html")
+	LoginTemplate, err = template.ParseFiles(packageTools.GetWD() + "/static/template/login.html")
+	RegisterTemplate, err = template.ParseFiles(packageTools.GetWD() + "/static/template/register.html")
+	UploadTemplate, err = template.ParseFiles(packageTools.GetWD() + "/static/template/upload.html")
+	GalleryTemplate, err = template.ParseFiles(packageTools.GetWD() + "/static/template/gallery.html")
+	DiaShowTemplate, err = template.ParseFiles(packageTools.GetWD() + "/static/template/diashow.html")
+	OrderTemplate, err = template.ParseFiles(packageTools.GetWD() + "/static/template/order.html")
+	ImageTemplate, err = template.ParseFiles(packageTools.GetWD() + "/static/template/image_com.html")
 	if err != nil {
 		log.Fatalln(err)
 	}
