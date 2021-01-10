@@ -55,13 +55,12 @@ func GetRandomInt() int {
 }
 
 func CreateRandomString() string {
-	var randInt = rand.Int()
 	var strRandInd = strconv.Itoa(randInt)
 	var salt = HashSHA(strRandInd)
 
 	return salt
 }
 
-func InitSeed() {
+func Init() {
 	rand.Seed(time.Now().UnixNano())
 }

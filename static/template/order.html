@@ -89,8 +89,12 @@ Matrikelnummern:
     {{ if .OrderElementsData }}
     <span class="order">Ihre gewünschte Bestellung</span>
     {{ else }}
+    {{ if .ZipPath }}
+    <span class="order">Die zip-Datei liegt im folgenden Ordner: <b>{{ .ZipPath }}</b></span>
+    {{ else }}
     <span class="order">Du hast noch keine Bilder auf deine Bestellliste gesetzt</span>
     <span class="order">Füge welche hinzu <a style="text-decoration: none; color: #026c45" href="/gallery"><b>Galerie</b></a></span>
+    {{ end }}
     {{ end }}
     <div class="order-list">
         {{ range .OrderElementsData }}
