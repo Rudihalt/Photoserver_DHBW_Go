@@ -12,9 +12,11 @@ import (
 )
 
 func TestGetAllOrderElementsByUserNum(t *testing.T) {
+	// Check Length of Order Elements of predefined json file
 	assert.Equal(t, 3, len(*GetAllOrderElementsByUser("test")))
 	assert.Equal(t, 0, len(*GetAllOrderElementsByUser("test1")))
 
+	// Check the data of the struct. predefined in file
 	order := *GetAllOrderElementsByUser("test")
 	assert.Equal(t, 1, order[0].Amount)
 	assert.Equal(t, "3x4", order[0].Format)
@@ -24,6 +26,8 @@ func TestGetAllOrderElementsByUserNum(t *testing.T) {
 }
 
 func TestAddOrderElementAndDelete(t *testing.T) {
+	// Check Length, before and after Adding some files
+	// Check values of the struct
 	assert.Equal(t, 3, len(*GetAllOrderElementsByUser("test")))
 
 	orderElement1 := AddOrderElement("test", "hash1", 2, "3x5")

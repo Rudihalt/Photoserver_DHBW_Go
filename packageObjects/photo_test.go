@@ -12,18 +12,22 @@ import (
 )
 
 func TestPhotosSize(t *testing.T) {
+	// Check length of photos. predefined file
 	assert.Equal(t, 3, len(*GetAllPhotosByUser("test")))
 }
 
 func TestPhotosPageAmount(t *testing.T) {
+	// check GetPhotoPageAmount
 	assert.Equal(t, 1, GetPhotoPageAmount("test"))
 }
 
 func TestPhotosForPage(t *testing.T) {
+	// check GetPhotosForPage
 	assert.Equal(t, 3, len(*GetPhotosForPage("test", 1)))
 }
 
 func TestGetPhotoByUserAndHash(t *testing.T) {
+	// Get Photo by user and hash. Use predefined json file
 	photos := GetAllPhotosByUser("test")
 	photo1 := GetPhotoByUserAndHash(photos, "fb891262c98f9725b54a613c6f1cbfb8c701bca2d386a55cd0d1b4966180549d")
 

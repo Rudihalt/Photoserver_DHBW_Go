@@ -12,6 +12,7 @@ import (
 )
 
 func TestUserFind(t *testing.T) {
+	// Check Find functions
 	assert.Equal(t, "test", GetUserByToken("d003b47ba0d9ade5f482e7e0").Username)
 	assert.Equal(t, "test", GetUserByUsername("test").Username)
 
@@ -21,10 +22,12 @@ func TestUserFind(t *testing.T) {
 }
 
 func TestUserSize(t *testing.T) {
+	// check length of user (predefined file)
 	assert.Equal(t, 2, len(*GetAllUsers()))
 }
 
 func TestUserPassword(t *testing.T) {
+	// check checkpassword function. use username and password
 	ok, token := CheckPassword("test", "123456")
 	assert.Equal(t, true, ok)
 	assert.Equal(t, "d003b47ba0d9ade5f482e7e0", token)
@@ -35,11 +38,13 @@ func TestUserPassword(t *testing.T) {
 }
 
 func TestCreateUser(t *testing.T) {
+	// test create a user who already exists
 	user := CreateUser("test", "123456")
 	assert.Equal(t, true, user == nil)
 }
 
 func TestSessionToken(t *testing.T) {
+	// Test of creating a ssession token. Should be different every time
 	token := createSessionToken()
 	assert.Equal(t, 24, len(token))
 
@@ -50,6 +55,7 @@ func TestSessionToken(t *testing.T) {
 }
 
 func TestUserExists(t *testing.T) {
+	// Test if User already exists
 	exists := UserExists("test")
 	assert.Equal(t, true, exists)
 

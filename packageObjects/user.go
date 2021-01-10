@@ -25,14 +25,17 @@ type User struct {
 
 var users *[]User
 
+// returns users
 func GetAllUsers() *[]User {
 	return users
 }
 
+// sets users
 func SetAllUsers(usersParam *[]User) {
 	users = usersParam
 }
 
+// reads all users from json file. parsing to struct array
 func readUsers() {
 	userData, err := ioutil.ReadFile(packageTools.GetWD() + "/static/data/users.json")
 	if err != nil {
@@ -48,6 +51,7 @@ func readUsers() {
 	}
 }
 
+// saves users to json file.
 func saveUsers() {
 	usersJson, err := json.MarshalIndent(users, "", "\t")
 	if err != nil {
@@ -60,6 +64,7 @@ func saveUsers() {
 	}
 }
 
+// function to check password. use hash and "salting" for password check.
 func CheckPassword(username string, password string) (bool, string) {
 	readUsers()
 
@@ -75,6 +80,7 @@ func CheckPassword(username string, password string) (bool, string) {
 	return false, ""
 }
 
+// Creates a user. create struct and hash password (with generated salt) and add user to users.json file
 func CreateUser(username string, password string) *User {
 	readUsers()
 
@@ -105,12 +111,14 @@ func CreateUser(username string, password string) *User {
 	return &user
 }
 
+// Creates a random session token. 24 characters
 func createSessionToken() string {
 	token := packageTools.CreateRandomString()[0:24]
 
 	return token
 }
 
+// check if user exists: check if a username in list matches
 func UserExists(username string) bool {
 	readUsers()
 	for _, user := range *GetAllUsers() {
@@ -122,6 +130,7 @@ func UserExists(username string) bool {
 	return false
 }
 
+// Get user by token by matching user list
 func GetUserByToken(token string) *User {
 	readUsers()
 	for _, user := range *GetAllUsers() {
@@ -133,6 +142,7 @@ func GetUserByToken(token string) *User {
 	return nil
 }
 
+// Get user by username by matching user list
 func GetUserByUsername(username string) *User {
 	for _, user := range *GetAllUsers() {
 		if user.Username == username {

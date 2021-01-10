@@ -20,6 +20,7 @@ type Photo struct {
 	Date string `json:"date"`
 }
 
+// Get List of photos by user. Read File and parse to array of structs
 func GetAllPhotosByUser(username string) *[]Photo {
 	var photos []Photo
 	var photosFile []byte
@@ -39,6 +40,7 @@ func GetAllPhotosByUser(username string) *[]Photo {
 	return &photos
 }
 
+// Returns the amount of pages
 func GetPhotoPageAmount(username string) int {
 	photos := *GetAllPhotosByUser(username)
 	total := len(photos)
@@ -52,6 +54,7 @@ func GetPhotoPageAmount(username string) int {
 	return amount + 1
 }
 
+// Returns all Photos for specific page
 func GetPhotosForPage(username string, page int) *[]Photo {
 	page--
 	photos := *GetAllPhotosByUser(username)
@@ -82,6 +85,7 @@ func GetPhotosForPage(username string, page int) *[]Photo {
 	return &part
 }
 
+// Get photo from list, where hash matches
 func GetPhotoByUserAndHash(photos *[]Photo, hash string) *Photo {
 
 	for _, photo := range *photos {
@@ -93,6 +97,7 @@ func GetPhotoByUserAndHash(photos *[]Photo, hash string) *Photo {
 	return nil
 }
 
+// Create new Photo in db. create struct, append to current list and save
 func SavePhoto(name string, username string, path string, date string) *Photo {
 	dir := packageTools.GetWD()
 	hash := packageTools.HashSHAFile(dir + "/static" + path)
@@ -119,6 +124,7 @@ func SavePhoto(name string, username string, path string, date string) *Photo {
 	return &photo
 }
 
+// saves photo list to json file for user
 func savePhotos(username string, photos *[]Photo) {
 	photoJson, err := json.MarshalIndent(photos, "", "\t")
 	if err != nil {
