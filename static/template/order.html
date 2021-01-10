@@ -8,41 +8,107 @@ Matrikelnummern:
 <html lang="en">
 <head>
     <style>
-        .testborder {
-            border-style: solid;
+        .container {
+            display: flex;
+            overflow: auto;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 0 20%;
+            border: 5px solid #eeeeee;
         }
+
+        h2 {
+            width: 100%;
+            margin: 10px 20px 5px;
+        }
+        span.order {
+            width: 100%;
+            margin: 0 20px 40px;
+            font-size: smaller;
+        }
+        div.right {
+            width: 70%;
+        }
+
+        div.order-list {
+            width: 100%;
+            margin: 0 40px;
+        }
+        div.order-item {
+            display: block;
+            width: 100%;
+            margin: 10px 0;
+        }
+        div.order-item:nth-child(odd) {
+            background-color: #cccccc;
+        }
+        div.order-name {
+            width: 100%;
+            font-size: larger;
+            font-weight: bold;
+            margin: 5px 0;
+        }
+        div.order-amount {
+            width: 100%;
+            margin: 5px 0;
+        }
+        div.order-format {
+            width: 100%;
+            margin: 5px 0;
+            padding-bottom: 20px;
+        }
+
+        .button {
+            background-color: #555555;
+            color: white;
+            padding: 10px;
+            margin: 0 0 10px;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            width: 50%;
+        }
+        .bottom {
+            margin: 5px;
+        }
+        .button:hover {
+            background-color: #444444;
+        }
+
         img {
-            max-height: 100px;
+            max-height: 250px;
         }
     </style>
 </head>
 <body>
-    <h1>Order</h1>
-    <p>Ihr gewünschte Bestellung:</p>
-    <br>
-    <hr>
-    <br>
-    <div>
+<div class="container">
+    <h2>Order</h2>
+    {{ if .OrderElementsData }}
+    <span class="order">Ihre gewünschte Bestellung</span>
+    {{ else }}
+    <span class="order">Du hast noch keine Bilder auf deine Bestellliste gesetzt</span>
+    <span class="order">Füge welche hinzu <a style="text-decoration: none; color: #026c45" href="/gallery"><b>Galerie</b></a></span>
+    {{ end }}
+    <div class="order-list">
         {{ range .OrderElementsData }}
-        <div>
-            <p class="testborder">
-                <img src="{{ .ImagePath }}">
-                <br>
-                Image Name: {{ .Name }}
-                <br>
-                Amount: {{ .Amount }}
-                <br>
-                Format: {{ .Format }}
-                <br>
-                <a href="/order?delete={{ .ID }}">Delete this Item</a>
-            </p>
+        <div class="order-item">
+            <img src="{{ .ImagePath }}" alt="{{ .Name }}"/>
+            <div class="right">
+                <div class="order-name">{{ .Name }}</div>
+                <div class="order-amount"><b>Anzahl</b>: {{ .Amount }}x</div>
+                <div class="order-format"><b>Format</b>: {{ .Format }}</div>
+
+                <a class="button" href="/order?delete={{ .ID }}">Entferne dieses Bild</a>
+            </div>
         </div>
         {{ end }}
     </div>
     {{ if .OrderElementsData }}
-    <a href="/order?deleteAll=1">Delete All</a>
+    <a class="button bottom" href="/order?deleteAll=1">Lösche deine Bestellung</a>
     <br>
-    <a href="/order?order=1">Bilder bestellen</a>
+    <a class="button bottom" href="/order?order=1">Bilder bestellen</a>
     {{ end }}
+</div>
 </body>
 </html>

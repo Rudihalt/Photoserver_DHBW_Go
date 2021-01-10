@@ -5,3 +5,13 @@ Matrikelnummern:
 - 3886565
 */
 package packageTools
+
+import "testing"
+
+func TestCreateZipFile(t *testing.T) {
+
+}
+
+func TestAddFile(t *testing.T) {
+
+}
