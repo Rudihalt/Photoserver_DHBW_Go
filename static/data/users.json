@@ -1,93 +1,9 @@
 [
 	{
-		"id": 597594937,
-		"username": "testuser",
-		"password": "ee2cf47ef088562fca82f2fb9cc3c02b3ee5d423e73cadea0e4ae371bf7981b6",
-		"salt": "83d544cc",
-		"token": "83d544cc83d544cc83d544cc83d544cc"
-	},
-	{
-		"id": 95373016,
-		"username": "yannis",
-		"password": "c3258aa3a6f46b1f342b282ab321d19ab10f00be5ffec680cd28f2a520ccb48ab",
-		"salt": "96eaa39b",
-		"token": "96eaa39b96eaa39b96eaa39b96eaa39b"
-	},
-	{
-		"id": 762678352,
-		"username": "x1",
-		"password": "58139f22e0a3562450f6966fcd22c0b534c4eea072d4b15e73954143a1291e63",
-		"salt": "2dfefa1a",
-		"token": "2dfefa1a2dfefa1a2dfefa1a2dfefa1a"
-	},
-	{
-		"id": 554829251,
-		"username": "x2",
-		"password": "d93e36d49b82d506cf4258f61c681ef1fbcef16c79a75fede4da49aba3106897",
-		"salt": "4a3e2837",
-		"token": "33ec110633ec110633ec110633ec1106"
-	},
-	{
-		"id": 850020749,
-		"username": "admin",
-		"password": "eddd6432e6df9e57b9d003b7ead529a10836601b825b2f04b85b83b23c30cada",
-		"salt": "cdb30079",
-		"token": "cdb30079cdb30079cdb30079cdb30079"
-	},
-	{
-		"id": 303821622,
-		"username": "dasdasdas",
-		"password": "984a7c065f39c8bfed600ed200510b3e8468689802a85008db8b857f147931b4",
-		"salt": "e5efd509",
-		"token": "e5efd509f54330952d47d277"
-	},
-	{
-		"id": 337697703,
-		"username": "sdfsdf",
-		"password": "b691a2de580b1f08b9690e7f1c104112321c2e0f322d2ccf61d6cc2b1a28531c",
-		"salt": "7546b25f",
-		"token": "7546b25fed56ff620dc5e65a"
-	},
-	{
-		"id": 202698442,
-		"username": "test",
-		"password": "856449dedd3068e486c87a8c79adfdd83093a89bc710f01e7d5d21d6043debb6",
-		"salt": "87380f5f",
-		"token": "87380f5fedb320ab6ed63104"
-	},
-	{
-		"id": 688959649,
-		"username": "a",
-		"password": "c902bf81f3e78889f603d0f7a042b44224cda17153da2bd5f9bb06f71ba4d08c",
-		"salt": "156596a8",
-		"token": "156596a87ca90c92a7f991cc"
-	},
-	{
-		"id": 306384037,
-		"username": "b",
-		"password": "23e12b7bc27dbcf3d81ad07846e4baf677a705a91a4111e033adc2b191f1ead6",
-		"salt": "c9841ddc",
-		"token": "c9841ddce0994ba6a816a0a3"
-	},
-	{
-		"id": 734405150,
-		"username": "c",
-		"password": "67583882b5f76bdcf1bcc8bf5a281234dd06d2e22ae330f1438daee4f5d35f0f",
-		"salt": "0c056dc7",
-		"token": "0c056dc7ab9cced10912c93f"
-	},
-	{
-		"id": 596729370,
-		"username": "d",
-		"password": "db1880215216b14d9f439790de224202833c3cfa9b3427371ff06db8f730d107",
-		"salt": "c48c1a88",
-		"token": "c48c1a88e20900e9fd70bee1"
-	},
-	{
-		"id": 199882519,
-		"username": "w",
-		"password": "a2c0955a06792af9d8cd469486a4f3a251ade21fc9119a5901ef4ad609d24645",
-		"salt": "c00f93a6",
-		"token": "c00f93a6bfe1655c8d4b7ec8"
+		"id": 822034679,
+		"username": "hneemann",
+		"password": "9e2810c356bcdc1e27c787b9281dbdce476fa5f7753180348bb010d953bf8513",
+		"salt": "a9767771",
+		"token": "a9767771509cb03991356332"
 	}
 ]
