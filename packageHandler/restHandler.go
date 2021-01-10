@@ -31,6 +31,7 @@ func RESTHandler(w http.ResponseWriter, r *http.Request) {
 			log.Println("Error Retrieving the File")
 			log.Println(err)
 		}
+		// check if the contentType is correct
 		contentType := handler.Header.Get("Content-Type")
 		if contentType != "application/octet-stream" {
 			if contentType != "image/jpeg" {
@@ -40,30 +41,32 @@ func RESTHandler(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 
-		// read datetime data
+		// get username from post
 		username := r.FormValue("username")
 
-
+		// set the path of the image
 		path, _ := os.Getwd()
 		path += "/static/images"
 
-		//TODO: CHECK IF PHOTO ALREADY EXIST
-
+		// create file
 		filePath := filepath.Join(path, handler.Filename)
 		f, err := os.Create(filePath)
 		if err != nil {
 			log.Println(f, "was successfully created")
 		}
 
+		// read the file to a byte array
 		fileBytes, err := ioutil.ReadAll(file)
 		if err != nil {
 			log.Println(err)
 		}
 
+		// get the datetime from the exif header
 		date, err := packageTools.GetDateTime(fileBytes)
 		if err != nil {
 			log.Println(err)
 		}
+		// write the file
 		f.Write(fileBytes)
 		e := f.Close()
 		if e != nil {
@@ -72,10 +75,12 @@ func RESTHandler(w http.ResponseWriter, r *http.Request) {
 			fmt.Println("Successfully Closing file")
 		}
 
+		// create hash for file
 		shaFile := packageTools.HashSHAFile(filePath)
 		fmt.Println("shaFile: " + shaFile)
 
-		e = os.Rename(filePath, filepath.Join(path, shaFile + ".jpg"))
+		// rename the file
+		e = os.Rename(filePath, filepath.Join(path, shaFile+".jpg"))
 		if e != nil {
 			fmt.Println(e)
 		}
@@ -85,13 +90,15 @@ func RESTHandler(w http.ResponseWriter, r *http.Request) {
 		log.Println("Uploaded File:", handler.Filename)
 		log.Println("date:", date)
 
-		photo := packageObjects.SavePhoto(handler.Filename, username, "/images/"+shaFile + ".jpg", date)
+		// save the photo to the user
+		photo := packageObjects.SavePhoto(handler.Filename, username, "/images/"+shaFile+".jpg", date)
 		if photo == nil {
 			log.Println("File could not be uploaded! File already exists?")
 		} else {
 			log.Println("File successfully uploaded!")
 		}
 
+		// redirect to the gallery view
 		http.Redirect(w, r, "/gallery", http.StatusSeeOther)
 	}
 }
