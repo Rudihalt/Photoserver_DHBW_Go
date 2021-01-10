@@ -5,138 +5,149 @@ Matrikelnummern:
 - 3886565
 -->
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <style>
+        .container {
+            display: flex;
+            overflow: auto;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 0 20%;
+            border: 5px solid #eeeeee;
+        }
+        div.image {
+            width: 40%;
+        }
+        div.menu {
+            width: 60%;
+        }
+
+        h2 {
+            margin: 10px 0 5px;
+        }
+        h4 {
+            margin: 0 2%;
+        }
+        span.date {
+            font-size: smaller;
+        }
+
         div.gallery {
-            border: 1px solid #ccc;
-            margin-left: auto ;
-            margin-right: auto;
-            width: 2000px;
+            background-color: #f1f1f1;
+            margin: 10px;
+            border: 2px solid #cccccc;
+            width: auto;
+            height: auto;
+            max-width: 100%;
         }
-
         div.gallery:hover {
-            border: 1px solid #777;
+            border: 2px solid #026c45;
+        }
+        div.gallery img {
+            max-width: 100%;
+            height: auto;
         }
 
-        img{
-            max-width: 600px;
-            max-height: 400px;
+        button {
+            background-color: #555555;
+            color: white;
+            padding: 10px;
+            margin: 0 0 10px;
+            border: none;
+            cursor: pointer;
+            width: 40%;
+        }
+        button:hover {
+            background-color: #444444;
+        }
+        input {
+            display:block;
+            width: 40%;
+            padding: 10px 20px;
+            margin: 10px 0 0;
+            border: 1px solid #cccccc;
+            box-sizing: border-box;
         }
 
-        /* The container <div> - needed to position the dropdown content */
-        .dropdown {
-            position: relative;
-            display: inline-block;
+        .comment-label {
+            display:block;
+            width: 100%;
+        }
+        .comments {
+            width: 100%;
+            background-color: #f1f1f1;
         }
 
-        /* Dropdown Content (Hidden by Default) */
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: #f9f9f9;
-            min-width: 160px;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            z-index: 1;
+        .comment {
+            padding: 10px 0;
+            width: 100%;
+            min-height: 3em;
+            height: auto;
         }
 
-        /* Links inside the dropdown */
-        .dropdown-content a {
-            color: black;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
+        .comment:nth-child(odd) {
+            background-color: #cccccc;
         }
-
-        /* Show the dropdown menu on hover */
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
-
-
-        #image_gallery_1{
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        #comment_section{
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
     </style>
 </head>
 
 <body>
 
-<div id="image_gallery_1">
-    <div class="gallery">
-        <a href="{{ .Photo.Path }}">
-        <img src="{{ .Photo.Path }}" alt="{{ .Photo.Name }}" title="Hier klicken für Originalgröße">
-        </a>
+<div class="container">
+    <div class="image">
+        <div class="gallery">
+            <a target="_blank" href="{{ .Photo.Path }}">
+                <img src="{{ .Photo.Path }}" alt="{{ .Photo.Name }}" title="Hier klicken für Originalgröße">
+            </a>
+        </div>
+    </div>
+    <div class="menu">
+        <h2>{{ .Photo.Name }}</h2>
+        <span class="date">Geschossen am <b>{{ .Photo.Date }}</b></span>
+        <hr>
         <div>
-            {{ range .Comments }}
-                <div>
-                    <p>
-                        {{ .Comment }}
-                        <br>
-                        am {{ .Date }}
-                    </p>
+            <h4>Füge das Bild deiner Bestellliste hinzu</h4>
+            <form action="/image?image={{ .Hash }}" method="post">
+                <label for="orderAmount"><b>Amount</b></label>
+                <input type="text" placeholder="Enter Amount" name="orderAmount" required>
+                <br>
+                <label for="orderFormat"><b>Format</b></label>
+                <div class="select">
+                    <select name="orderFormat">
+                        <option selected value="3x4" >3x4</option>
+                        <option value="16x9">16x9</option>
+                        <option value="1x2">1x2</option>
+                    </select>
                 </div>
+                <br>
+                <button type="submit">Add to Order</button>
+            </form>
+        </div>
+        <hr>
+        <div class="comments">
+            <h4>Kommentare</h4>
+            {{ range .Comments }}
+            <div class="comment">
+                <span>
+                    {{ .Comment }}
+                </span>
+                <br>
+                <span style="font-size: smaller">
+                    <i>> am {{ .Date }}</i>
+                </span>
+            </div>
             {{ end }}
+            <h4>Schreibe einen Kommentar</h4>
+            <form action="/image?image={{ .Hash }}" method="post">
+                <label class="comment-label" for="comment"><b>Kommentar</b></label>
+                <input style="width: 100%" type="text" placeholder="Enter Comment" name="comment" required>
+                <br>
+                <button type="submit">Kommentar absetzen</button>
+            </form>
         </div>
     </div>
 </div>
-
-
-<br>
-<hr>
-
-<h3>
-    Write a comment here;
-</h3>
-
-<form action="/image?image={{ .Hash }}" method="post">
-
-    <div id="comment_section">
-        <label for="comment"><b>Kommentar</b></label>
-        <input type="text" placeholder="Enter Comment" name="comment" required>
-        <br>
-        <button type="submit">Kommentieren</button>
-    </div>
-
-
-</form>
-
-<br>
-<hr>
-
-<h3>
-    Add this photo to OrderList here:
-</h3>
-
-
-<form action="/image?image={{ .Hash }}" method="post">
-
-    <div>
-        <label for="orderAmount"><b>Amount</b></label>
-        <input type="text" placeholder="Enter Amount" name="orderAmount" required>
-        <br>
-        <label for="orderFormat"><b>Format</b></label>
-        <select name="orderFormat">
-                <option selected value="3x4" >3x4</option>
-                <option value="16x9">16x9</option>
-                <option value="1x2">1x2</option>
-        </select>
-        <br>
-        <button type="submit">Add to Order</button>
-    </div>
-
-
-</form>
-
 
 </body>
 </html>
