@@ -11,7 +11,6 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
-	"path"
 	"strconv"
 	"strings"
 )
@@ -25,14 +24,18 @@ type ZipItem struct {
 
 // https://stackoverflow.com/questions/37869793/how-do-i-zip-a-directory-containing-sub-directories-or-files-in-golang
 
+// function to create a zip archive from the zipitem which are
+// data from the users order
 func CreateZipFile(files []ZipItem, username string) (string, error) {
-	zipFile, err := os.Create("./static/orders/" + username + ".zip")
+	// create zip archive
+	zipFile, err := os.Create(GetOrderFolder() + username + ".zip")
 	if err != nil {
 		log.Println(err)
 		return "", err
 	}
 	defer zipFile.Close()
 
+	// add all items to zip to the zip
 	writer := zip.NewWriter(zipFile)
 	for _, file := range files {
 		for i := 0; i < file.Amount; i++ {
@@ -45,23 +48,23 @@ func CreateZipFile(files []ZipItem, username string) (string, error) {
 		}
 	}
 
-	// Make sure to check the error on Close.
+	// close the writer
 	err = writer.Close()
 	if err != nil {
 		log.Println(err)
 		return "", err
 	}
-	dir, _ := os.Getwd()
-	path := path.Join(dir, zipFile.Name())
-	return path, nil
+	return zipFile.Name(), nil
 }
 
+// function to add a file to the current created zip archive
 func addFile(w *zip.Writer, path string, name string) {
+	// reads the data from
 	dat, err := ioutil.ReadFile(path)
 	if err != nil {
 		log.Println(err)
 	}
-	// Add some files to the archive.
+	// write files to the zip archive
 	f, err := w.Create(name)
 	if err != nil {
 		log.Println(err)
