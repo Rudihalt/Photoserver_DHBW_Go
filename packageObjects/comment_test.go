@@ -25,11 +25,9 @@ func TestFilterCommentByHash(t *testing.T) {
 
 	assert.Equal(t, "Gutes Bild", (*comments)[0].Comment)
 	assert.Equal(t, "2021.01.10 16:34:37", (*comments)[0].Date)
-	assert.Equal(t, "fb891262c98f9725b54a613c6f1cbfb8c701bca2d386a55cd0d1b4966180549d", (*comments)[0].Hash)
 
 	assert.Equal(t, "Super Bild", (*comments)[1].Comment)
 	assert.Equal(t, "2021.01.10 16:34:49", (*comments)[1].Date)
-	assert.Equal(t, "fb891262c98f9725b54a613c6f1cbfb8c701bca2d386a55cd0d1b4966180549d", (*comments)[1].Hash)
 
 	assert.Equal(t, true, FilterAllCommentsByHash(allComments, "abc") == nil)
 }

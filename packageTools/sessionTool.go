@@ -55,6 +55,7 @@ func GetRandomInt() int {
 }
 
 func CreateRandomString() string {
+	var randInt = rand.Intn(10000000)
 	var strRandInd = strconv.Itoa(randInt)
 	var salt = HashSHA(strRandInd)
 
