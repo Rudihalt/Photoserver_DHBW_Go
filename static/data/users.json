@@ -5,5 +5,12 @@
 		"password": "9e2810c356bcdc1e27c787b9281dbdce476fa5f7753180348bb010d953bf8513",
 		"salt": "a9767771",
 		"token": "a9767771509cb03991356332"
+	},
+	{
+		"id": 301190474,
+		"username": "test",
+		"password": "da0de653191d589fa4aa55f5a792a964df7c68cab4aad3f63c4597f52d4867f1",
+		"salt": "d003b47b",
+		"token": "d003b47ba0d9ade5f482e7e0"
 	}
 ]
