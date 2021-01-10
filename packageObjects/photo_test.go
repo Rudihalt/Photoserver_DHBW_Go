@@ -13,7 +13,10 @@ import (
 
 func TestPhotosSize(t *testing.T) {
 	// Check length of photos. predefined file
-	assert.Equal(t, 3, len(*GetAllPhotosByUser("test")))
+	assert.Equal(t, 4, len(*GetAllPhotosByUser("test")))
+	savePhotos("test", GetAllPhotosByUser("test"))
+	photo := SavePhoto("file.jpg", "test", "/static/file.jpg", "date")
+	assert.Equal(t, true, photo == nil)
 }
 
 func TestPhotosPageAmount(t *testing.T) {
@@ -23,7 +26,7 @@ func TestPhotosPageAmount(t *testing.T) {
 
 func TestPhotosForPage(t *testing.T) {
 	// check GetPhotosForPage
-	assert.Equal(t, 3, len(*GetPhotosForPage("test", 1)))
+	assert.Equal(t, 4, len(*GetPhotosForPage("test", 1)))
 }
 
 func TestGetPhotoByUserAndHash(t *testing.T) {
