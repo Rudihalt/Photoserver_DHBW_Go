@@ -20,9 +20,11 @@ import (
 // https://gobyexample.com/sha1-hashes
 // https://austingwalters.com/building-a-web-server-in-go-salting-passwords/
 
+// hash function
 func HashSHA(str string) string {
 	var bytes = []byte(str)
 
+	// create new hash for str
 	var hash = sha256.New()
 	hash.Write(bytes)
 	var code = hash.Sum(nil)
@@ -31,13 +33,16 @@ func HashSHA(str string) string {
 	return hashedString
 }
 
+// get hash for file
 func HashSHAFile(filePath string) string {
+	// read file to bytes
 	bytes, err := ioutil.ReadFile(filePath)
 
 	if err != nil {
 		fmt.Println("Datei nicht gefunden!")
 	}
 
+	// create new hash and create it for the file
 	var hash = sha256.New()
 	hash.Write(bytes)
 	var code = hash.Sum(nil)
@@ -46,14 +51,17 @@ func HashSHAFile(filePath string) string {
 	return hashedString
 }
 
+// create a salt which is a 8 char long random string
 func CreateSalt() string {
 	return CreateRandomString()[0:8]
 }
 
+// get random integer
 func GetRandomInt() int {
 	return rand.Int()
 }
 
+// create a random string
 func CreateRandomString() string {
 	var randInt = rand.Intn(10000000)
 	var strRandInd = strconv.Itoa(randInt)
@@ -62,6 +70,7 @@ func CreateRandomString() string {
 	return salt
 }
 
+// initialize rand
 func Init() {
 	rand.Seed(time.Now().UnixNano())
 }
