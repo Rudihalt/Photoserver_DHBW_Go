@@ -59,7 +59,7 @@ func IndexHandler(w http.ResponseWriter, r *http.Request) {
 
 	var user *packageObjects.User
 	var NavData NavBarData
-	var greeting = "Herzlich Willkommen auf auf dem Photo-Server. Registriere dich oder logge dich ein!"
+	var greeting = "Herzlich Willkommen auf auf dem Photo-Server. Registriere dich oder logge dich ein! Testuser: user= hneemann password= 123456"
 
 	if cookie != nil {
 		user = packageObjects.GetUserByToken(cookie.Value)

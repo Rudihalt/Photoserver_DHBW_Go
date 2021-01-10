@@ -1,0 +1,17 @@
+[
+	{
+		"comment": "Das ist eine wirklich scöne Katze",
+		"date": "2021.01.10 14:15:01",
+		"hash": "09a5fee1b9233ecc8c5ef25bf5030066bf43103690a15b3a0847867a59aad542"
+	},
+	{
+		"comment": "Weihnachten war schön",
+		"date": "2021.01.10 14:15:17",
+		"hash": "09a5fee1b9233ecc8c5ef25bf5030066bf43103690a15b3a0847867a59aad542"
+	},
+	{
+		"comment": "Silvester auch",
+		"date": "2021.01.10 14:15:27",
+		"hash": "09a5fee1b9233ecc8c5ef25bf5030066bf43103690a15b3a0847867a59aad542"
+	}
+]
