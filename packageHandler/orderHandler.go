@@ -10,6 +10,7 @@ import (
 	"log"
 	"net/http"
 	"photoserver/packageObjects"
+	"photoserver/packageTools"
 	"strconv"
 )
 
@@ -39,7 +40,7 @@ func OrderHandler(w http.ResponseWriter, r *http.Request) {
 		deleteOne := q.Get("delete")
 
 		if order == "1" {
-			orderProcess() // TODO: NOCH IMPLEMENTIEREN
+			orderProcess(user.Username)
 		}
 
 		if deleteAll == "1" {
@@ -95,6 +96,22 @@ func OrderHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func orderProcess() {
+func orderProcess(username string) {
+	photos := packageObjects.GetAllPhotosByUser(username)
+	order := packageObjects.GetAllOrderElementsByUser(username)
 
+	var zipItems []packageTools.ZipItem
+
+	log.Println(username, "places an order")
+	for _, element := range *order {
+		photo := packageObjects.GetPhotoByUserAndHash(photos, element.Hash)
+
+		item := packageTools.ZipItem{Name: photo.Name, Path: photo.Path, Format: element.Format, Amount: element.Amount}
+		log.Println("-", strconv.Itoa(item.Amount)+"x", item.Name, "in", item.Format)
+		zipItems = append(zipItems, item)
+	}
+	err := packageTools.CreateZipFile(zipItems, username)
+	if err == nil {
+		packageObjects.DeleteFullOrder(username)
+	}
 }
