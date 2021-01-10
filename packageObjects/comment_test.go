@@ -12,11 +12,13 @@ import (
 )
 
 func TestCommentsSize(t *testing.T) {
+	// Check length of predefined test file
 	assert.Equal(t, 4, len(*GetAllCommentsByUser("test")))
 	assert.Equal(t, 0, len(*GetAllCommentsByUser("test1")))
 }
 
 func TestFilterCommentByHash(t *testing.T) {
+	// Test with filter and given hash from predefined json file. Check structs of json file
 	allComments := GetAllCommentsByUser("test")
 
 	comments := FilterAllCommentsByHash(allComments, "fb891262c98f9725b54a613c6f1cbfb8c701bca2d386a55cd0d1b4966180549d")

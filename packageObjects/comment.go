@@ -20,6 +20,7 @@ type Comment struct {
 	Hash    string `json:"hash"`
 }
 
+// Get ALl comments by user. Read from json file and return pointer of array
 func GetAllCommentsByUser(username string) *[]Comment {
 	var comments []Comment
 	var commentsFile []byte
@@ -39,6 +40,7 @@ func GetAllCommentsByUser(username string) *[]Comment {
 	return &comments
 }
 
+// save all comments to user in json file
 func saveComments(username string, comments *[]Comment) {
 	commentJson, err := json.MarshalIndent(comments, "", "\t")
 	if err != nil {
@@ -51,6 +53,7 @@ func saveComments(username string, comments *[]Comment) {
 	}
 }
 
+// Add comment by creating a struct and append it to list. then save
 func AddComment(username string, hash string, commentStr string) *Comment {
 	currentComments := *GetAllCommentsByUser(username)
 
@@ -70,6 +73,7 @@ func AddComment(username string, hash string, commentStr string) *Comment {
 	return &comment
 }
 
+// filter list of comments with the given hash. return list
 func FilterAllCommentsByHash(comments *[]Comment, hash string) *[]Comment {
 	var hashComments []Comment
 	for _, comment := range *comments {
