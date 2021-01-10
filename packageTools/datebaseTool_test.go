@@ -26,7 +26,7 @@ func TestPathExist(t *testing.T) {
 func TestCreateDirIfNotExists(t *testing.T) {
 	// initialize a not existing directory
 	dir, _ := os.Getwd()
-	dir += path.Join(dir, "test_directory")
+	dir = path.Join(dir, "test_directory")
 	CreateDirIfNotExists(dir)
 	// check if direcotry exist
 	exist := PathExist(dir)
