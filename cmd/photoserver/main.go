@@ -11,6 +11,7 @@ import (
 	"log"
 	"net/http"
 	"photoserver/packageHandler"
+	"photoserver/packageTools"
 	"strconv"
 )
 
@@ -28,6 +29,11 @@ func main() {
 	log.Printf("Folgende Parameter werden verwendet: Port: " + strconv.Itoa(*port) + " Certificates: " + *certificates + " Data: " + *data)
 	log.Println()
 
+	// check if all necessary directories exist
+	packageTools.CreateNecessaryDirs()
+
+	// initialize random and all html templates
+	packageTools.Init()
 	packageHandler.InitTemplates()
 
 	http.HandleFunc("/", packageHandler.IndexHandler)
@@ -39,8 +45,6 @@ func main() {
 	http.HandleFunc("/gallery", packageHandler.GalleryHandler)
 	http.HandleFunc("/order", packageHandler.OrderHandler)
 	http.HandleFunc("/image", packageHandler.ImageHandler)
-	http.HandleFunc("/album", packageHandler.AlbumHandler)
-	http.HandleFunc("/album_images", packageHandler.AlbumImagesHandler)
 
 	http.HandleFunc("/api", packageHandler.RESTHandler)
 

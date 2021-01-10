@@ -16,14 +16,15 @@ import (
 
 type OrderViewData struct {
 	OrderElementsData []OrderElementData
+	ZipPath           string
 }
 
 type OrderElementData struct {
-	ID int
-	Name string
+	ID        int
+	Name      string
 	ImagePath string
-	Amount int
-	Format string
+	Amount    int
+	Format    string
 }
 
 func OrderHandler(w http.ResponseWriter, r *http.Request) {
@@ -39,8 +40,12 @@ func OrderHandler(w http.ResponseWriter, r *http.Request) {
 		order := q.Get("order")
 		deleteOne := q.Get("delete")
 
+		var orderViewData = OrderViewData{}
 		if order == "1" {
-			orderProcess(user.Username)
+			path := orderProcess(user.Username)
+			if path != "" {
+				orderViewData.ZipPath = path
+			}
 		}
 
 		if deleteAll == "1" {
@@ -75,19 +80,16 @@ func OrderHandler(w http.ResponseWriter, r *http.Request) {
 			photo := *packageObjects.GetPhotoByUserAndHash(allPhotos, orderElement.Hash)
 
 			temp := OrderElementData{
-				ID: orderElement.ID,
-				Name: photo.Name,
+				ID:        orderElement.ID,
+				Name:      photo.Name,
 				ImagePath: photo.Path,
-				Amount: orderElement.Amount,
-				Format: orderElement.Format,
+				Amount:    orderElement.Amount,
+				Format:    orderElement.Format,
 			}
 
 			orderElementData = append(orderElementData, temp)
 		}
-
-		orderViewData := OrderViewData{
-			OrderElementsData: orderElementData,
-		}
+		orderViewData.OrderElementsData = orderElementData
 
 		err = OrderTemplate.Execute(w, orderViewData)
 		if err != nil {
@@ -96,7 +98,7 @@ func OrderHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func orderProcess(username string) {
+func orderProcess(username string) string {
 	photos := packageObjects.GetAllPhotosByUser(username)
 	order := packageObjects.GetAllOrderElementsByUser(username)
 
@@ -110,8 +112,10 @@ func orderProcess(username string) {
 		log.Println("-", strconv.Itoa(item.Amount)+"x", item.Name, "in", item.Format)
 		zipItems = append(zipItems, item)
 	}
-	err := packageTools.CreateZipFile(zipItems, username)
+	zipFile, err := packageTools.CreateZipFile(zipItems, username)
 	if err == nil {
 		packageObjects.DeleteFullOrder(username)
+		return zipFile
 	}
+	return ""
 }

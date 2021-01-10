@@ -51,15 +51,17 @@ func CreateSalt() string {
 }
 
 func GetRandomInt() int {
-	rand.Seed(time.Now().UnixNano())
 	return rand.Int()
 }
 
 func CreateRandomString() string {
-	rand.Seed(time.Now().UnixNano())
 	var randInt = rand.Intn(10000000)
 	var strRandInd = strconv.Itoa(randInt)
 	var salt = HashSHA(strRandInd)
 
 	return salt
+}
+
+func Init() {
+	rand.Seed(time.Now().UnixNano())
 }
