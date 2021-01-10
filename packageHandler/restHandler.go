@@ -7,6 +7,7 @@ Matrikelnummern:
 package packageHandler
 
 import (
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -24,6 +25,8 @@ func RESTHandler(w http.ResponseWriter, r *http.Request) {
 		r.ParseMultipartForm(10 << 20)
 		// posted stuff
 		file, handler, err := r.FormFile("file")
+		defer file.Close()
+
 		if err != nil {
 			log.Println("Error Retrieving the File")
 			log.Println(err)
@@ -39,7 +42,7 @@ func RESTHandler(w http.ResponseWriter, r *http.Request) {
 
 		// read datetime data
 		username := r.FormValue("username")
-		defer file.Close()
+
 
 		path, _ := os.Getwd()
 		path += "/static/images"
@@ -51,7 +54,6 @@ func RESTHandler(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			log.Println(f, "was successfully created")
 		}
-		defer f.Close()
 
 		fileBytes, err := ioutil.ReadAll(file)
 		if err != nil {
@@ -63,13 +65,27 @@ func RESTHandler(w http.ResponseWriter, r *http.Request) {
 			log.Println(err)
 		}
 		f.Write(fileBytes)
+		e := f.Close()
+		if e != nil {
+			fmt.Println("Error Closing file")
+		} else {
+			fmt.Println("Successfully Closing file")
+		}
+
+		shaFile := packageTools.HashSHAFile(filePath)
+		fmt.Println("shaFile: " + shaFile)
+
+		e = os.Rename(filePath, filepath.Join(path, shaFile + ".jpg"))
+		if e != nil {
+			fmt.Println(e)
+		}
 
 		// ouput to save
 		log.Println("username:", username)
 		log.Println("Uploaded File:", handler.Filename)
 		log.Println("date:", date)
 
-		photo := packageObjects.SavePhoto(handler.Filename, username, "/images/"+handler.Filename, date)
+		photo := packageObjects.SavePhoto(handler.Filename, username, "/images/"+shaFile + ".jpg", date)
 		if photo == nil {
 			log.Println("File could not be uploaded! File already exists?")
 		} else {
