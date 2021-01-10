@@ -19,10 +19,11 @@ type OrderViewData struct {
 }
 
 type OrderElementData struct {
-	Name      string
+	ID int
+	Name string
 	ImagePath string
-	Amount    int
-	Format    string
+	Amount int
+	Format string
 }
 
 func OrderHandler(w http.ResponseWriter, r *http.Request) {
@@ -74,10 +75,11 @@ func OrderHandler(w http.ResponseWriter, r *http.Request) {
 			photo := *packageObjects.GetPhotoByUserAndHash(allPhotos, orderElement.Hash)
 
 			temp := OrderElementData{
-				Name:      photo.Name,
+				ID: orderElement.ID,
+				Name: photo.Name,
 				ImagePath: photo.Path,
-				Amount:    orderElement.Amount,
-				Format:    orderElement.Format,
+				Amount: orderElement.Amount,
+				Format: orderElement.Format,
 			}
 
 			orderElementData = append(orderElementData, temp)

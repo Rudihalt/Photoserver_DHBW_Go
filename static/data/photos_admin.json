@@ -1,32 +1,56 @@
 [
 	{
-		"name": "img1.jpg",
-		"path": "images/img1.jpg",
-		"hash": "ade099751d2ea9f3393f0f32d20c6b980dd5d3b0989dea599b966ae0d3cd5a1e",
-		"date": "2020-11-10"
+		"name": "IMG_1782.jpeg",
+		"path": "/images/IMG_1782.jpeg",
+		"hash": "94570f30e8d9e853bf50ebfe24fa4bae50343e8b1fe8732e1873b6003ed6dffd",
+		"date": "2020:09:04"
 	},
 	{
-		"name": "img2.jpg",
-		"path": "images/img2.jpg",
-		"hash": "4fe580987fb341b3414a336518936e12954d3cf8c237ed0f0b7b1a0d69f39fb1",
-		"date": "2020-11-10"
+		"name": "DSC_0053.JPG",
+		"path": "/images/DSC_0053.JPG",
+		"hash": "fb891262c98f9725b54a613c6f1cbfb8c701bca2d386a55cd0d1b4966180549d",
+		"date": "2020:08:16"
 	},
 	{
-		"name": "img3.jpg",
-		"path": "images/img3.jpg",
-		"hash": "1da7f752ea9d928c63996f5c8c0cb88d055d3a51e815a91e1f906ff6204ea09b",
-		"date": "2020-11-10"
+		"name": "IMG_20181031_145654.jpg",
+		"path": "/images/IMG_20181031_145654.jpg",
+		"hash": "9dba04280eee89ed4a57c38348070616f14ba1277f6dad10e1ec2e49aeb7e55a",
+		"date": "2021:01:10"
 	},
 	{
-		"name": "img4.jpg",
-		"path": "images/img4.jpg",
-		"hash": "2b832b1ebc6b185de8203a0307b5b1389365987ec979bd8941afadecb4342dc1",
-		"date": "2020-11-10"
+		"name": "IMG_20201027_123135.jpg",
+		"path": "/images/IMG_20201027_123135.jpg",
+		"hash": "341d8450da1eb193b7bcddb3513ba0cb715794f3cfb26fc78c19a092eafe5189",
+		"date": "2020:10:27"
+	},
+	{
+		"name": "IMG_20201031_202255.jpg",
+		"path": "/images/IMG_20201031_202255.jpg",
+		"hash": "0989df55a481ff5b61fee6b60bd5d45ab806f64fb4d71190fe944919162a81b4",
+		"date": "2020:10:31"
+	},
+	{
+		"name": "P3260778.JPG",
+		"path": "/images/P3260778.JPG",
+		"hash": "81ae82006030991568eba900b963e2d5ec5d81e99caa8a26f79c15968ddba1a3",
+		"date": "2017:08:24"
 	},
 	{
 		"name": "Trauben.JPG",
-		"path": "C:\\Users\\Yannis\\go\\src\\photoserver/static/images",
-		"hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+		"path": "/images/Trauben.JPG",
+		"hash": "9072a855573c3d305b761c246a5819dcab951ef011f3160ae2741ece5fbb0fc5",
 		"date": "2018:11:18"
+	},
+	{
+		"name": "20201022_192337.jpg",
+		"path": "/images/09a5fee1b9233ecc8c5ef25bf5030066bf43103690a15b3a0847867a59aad542.jpg",
+		"hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+		"date": "2020:10:22"
+	},
+	{
+		"name": "IMG_2131.jpeg",
+		"path": "/images/c0c2b40143ef318719cc7c404d9e85025cc636eeef4ae6377155f1b1629554ae.jpg",
+		"hash": "c0c2b40143ef318719cc7c404d9e85025cc636eeef4ae6377155f1b1629554ae",
+		"date": "2020:10:25"
 	}
 ]
