@@ -39,6 +39,11 @@ Matrikelnummern:
 <body>
 
 <h1 class="center-text">Automatic Slideshow</h1>
+
+{{ $length := len . }} {{ if eq $length 0 }}
+    <p>Du hast noch keine Bilder hochgeladen</p>
+{{ else }}
+
 <div class="pic-diashow center">
 
     {{ range . }}
@@ -46,7 +51,7 @@ Matrikelnummern:
     {{ end }}
 
 </div>
-
+{{ end }}
 
 
 <script>
