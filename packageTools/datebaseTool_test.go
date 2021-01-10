@@ -37,3 +37,65 @@ func TestCreateDirIfNotExists(t *testing.T) {
 		log.Println("Could not delete directory")
 	}
 }
+
+func TestGetPublicDir(t *testing.T) {
+	wd, _ := os.Getwd()
+	expected := path.Join(wd, "s787IK")
+	SetPublicDir(expected)
+	actual := GetPublicDir()
+
+	assert.Equal(t, expected, actual)
+
+	err := os.RemoveAll(expected)
+	if err != nil {
+		log.Println("Could not delete directory")
+	}
+}
+
+func TestGetImageFolder(t *testing.T) {
+	wd, _ := os.Getwd()
+	public := path.Join(wd, "s787IK")
+	SetPublicDir(public)
+	expected := path.Join(public, "images")
+	actual := GetImageFolder()
+
+	expected += "/"
+	assert.Equal(t, expected, actual)
+
+	err := os.RemoveAll(public)
+	if err != nil {
+		log.Println("Could not delete directory")
+	}
+}
+
+func TestGetOrderFolder(t *testing.T) {
+	wd, _ := os.Getwd()
+	public := path.Join(wd, "s787IK")
+	SetPublicDir(public)
+	expected := path.Join(public, "orders")
+	actual := GetOrderFolder()
+
+	expected += "/"
+	assert.Equal(t, expected, actual)
+
+	err := os.RemoveAll(public)
+	if err != nil {
+		log.Println("Could not delete directory")
+	}
+}
+
+func TestGetDataFolder(t *testing.T) {
+	wd, _ := os.Getwd()
+	public := path.Join(wd, "s787IK")
+	SetPublicDir(public)
+	expected := path.Join(public, "data")
+	actual := GetDataFolder()
+
+	expected += "/"
+	assert.Equal(t, expected, actual)
+
+	err := os.RemoveAll(public)
+	if err != nil {
+		log.Println("Could not delete directory")
+	}
+}

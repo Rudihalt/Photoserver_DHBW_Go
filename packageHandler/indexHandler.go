@@ -34,6 +34,7 @@ type IndexViewData struct {
 	Greeting string
 }
 
+// function to initialize all templates
 func InitTemplates() {
 	var err error
 	IndexTemplate, err = template.ParseFiles(packageTools.GetWD() + "/static/template/index.html")
@@ -58,16 +59,19 @@ func IndexHandler(w http.ResponseWriter, r *http.Request) {
 	var NavData NavBarData
 	var greeting = "Herzlich Willkommen auf auf dem Photo-Server. Registriere dich oder logge dich ein! Testuser: user= hneemann password= 123456"
 
+	// check if cookie / token exist
 	if cookie != nil {
 		user = packageObjects.GetUserByToken(cookie.Value)
 		greeting = "Herzlich Willkommen auf dem Photo-Server, " + user.Username
 		NavData = NavBarData{Username: user.Username}
 	}
 
+	// create IndexViewData with greeting
 	IndexViewData := IndexViewData{
 		Greeting: greeting,
 	}
 
+	// hand over the data to the templates
 	err := NavTemplate.Execute(w, NavData)
 	err = IndexTemplate.Execute(w, IndexViewData)
 
