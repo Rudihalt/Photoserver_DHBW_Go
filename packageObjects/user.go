@@ -34,12 +34,12 @@ func SetAllUsers(usersParam *[]User) {
 }
 
 func readUsers() {
-	userData, err := ioutil.ReadFile("static/data/users.json")
+	userData, err := ioutil.ReadFile(packageTools.GetWD() + "/static/data/users.json")
 	if err != nil {
-		f, _ := os.Create("static/data/users.json")
+		f, _ := os.Create(packageTools.GetWD() + "/static/data/users.json")
 		f.WriteString("[]")
 		f.Close()
-		userData, _ = ioutil.ReadFile("static/data/users.json")
+		userData, _ = ioutil.ReadFile(packageTools.GetWD() + "/static/data/users.json")
 	}
 
 	err = json.Unmarshal(userData, &users)
@@ -54,7 +54,7 @@ func saveUsers() {
 		panic(err)
 	}
 
-	err = ioutil.WriteFile("static/data/users.json", usersJson, 0644)
+	err = ioutil.WriteFile(packageTools.GetWD() + "static/data/users.json", usersJson, 0644)
 	if err != nil {
 		panic(err)
 	}

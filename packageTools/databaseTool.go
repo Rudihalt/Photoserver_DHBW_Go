@@ -8,6 +8,7 @@ package packageTools
 
 import (
 	"os"
+	"strings"
 )
 
 var dataFolder string
@@ -67,4 +68,22 @@ func GetDataFolder() string {
 	retStr := dataFolder + "/data/"
 	CreateDirIfNotExists(retStr)
 	return retStr
+}
+
+func GetWD() string {
+	// https://stackoverflow.com/questions/14249217/how-do-i-know-im-running-within-go-test
+
+	// Important for tests! if Path contains package (packageTools, ppackageObjects, packageHandler),
+	// then the test files are running.
+
+	wd, err := os.Getwd()
+	if err != nil {
+		panic(err)
+	}
+
+	if strings.Contains(wd, "package") {
+		wd = wd + "/.."
+	}
+
+	return wd
 }
