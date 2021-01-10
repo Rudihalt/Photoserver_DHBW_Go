@@ -39,7 +39,7 @@ Matrikelnummern:
 <form enctype="multipart/form-data" action="/api" method="post">
     <div class="container">
         <label for="fileinput">Lade ein Bild für dich hoch</label>
-        <input id="fileinput" type="file" name="file" accept="image/jpeg" />
+        <input id="fileinput" type="file" name="file" accept="image/jpeg" required />
         <input type="hidden" name="username" value="{{ .Username }}" />
     </div>
 
