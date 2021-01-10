@@ -21,11 +21,9 @@ var LoginTemplate *template.Template
 var RegisterTemplate *template.Template
 var UploadTemplate *template.Template
 var GalleryTemplate *template.Template
-var DiashowTemplate *template.Template
+var DiaShowTemplate *template.Template
 var OrderTemplate *template.Template
 var ImageTemplate *template.Template
-var AlbumTemplate *template.Template
-var AlbumImagesTemplate *template.Template
 
 type NavBarData struct {
 	Username string
@@ -43,11 +41,9 @@ func InitTemplates() {
 	RegisterTemplate, err = template.ParseFiles("static/template/register.html")
 	UploadTemplate, err = template.ParseFiles("static/template/upload.html")
 	GalleryTemplate, err = template.ParseFiles("static/template/gallery.html")
-	DiashowTemplate, err = template.ParseFiles("static/template/diashow.html")
+	DiaShowTemplate, err = template.ParseFiles("static/template/diashow.html")
 	OrderTemplate, err = template.ParseFiles("static/template/order.html")
 	ImageTemplate, err = template.ParseFiles("static/template/image_com.html")
-	AlbumTemplate, err = template.ParseFiles("static/template/album.html")
-	AlbumImagesTemplate, err = template.ParseFiles("static/template/album_images.html")
 	if err != nil {
 		log.Fatalln(err)
 	}

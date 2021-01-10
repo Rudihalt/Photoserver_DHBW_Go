@@ -33,10 +33,10 @@ func DiashowHandler(w http.ResponseWriter, r *http.Request) {
 		if photoLength < amountShowPhotos {
 			lastPhotos = *allPhotos
 		} else {
-			lastPhotos = (*allPhotos)[photoLength - amountShowPhotos: photoLength]
+			lastPhotos = (*allPhotos)[photoLength-amountShowPhotos : photoLength]
 		}
 
-		err = DiashowTemplate.Execute(w, lastPhotos)
+		err = DiaShowTemplate.Execute(w, lastPhotos)
 
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
