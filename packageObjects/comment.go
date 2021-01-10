@@ -47,7 +47,7 @@ func saveComments(username string, comments *[]Comment) {
 		panic(err)
 	}
 
-	err = ioutil.WriteFile(packageTools.GetWD() + "static/data/comments_"+username+".json", commentJson, 0644)
+	err = ioutil.WriteFile(packageTools.GetWD()+"/static/data/comments_"+username+".json", commentJson, 0644)
 	if err != nil {
 		panic(err)
 	}
