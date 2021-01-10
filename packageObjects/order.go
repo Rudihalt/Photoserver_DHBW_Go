@@ -24,7 +24,7 @@ func GetAllOrderElementsByUser(username string) *[]OrderElement {
 	var orderElements []OrderElement
 	var orderElementsFile []byte
 
-	orderElementsFile, err := ioutil.ReadFile("static/data/order_" + username + ".json")
+	orderElementsFile, err := ioutil.ReadFile(packageTools.GetWD() + "/static/data/order_" + username + ".json")
 
 	err = json.Unmarshal(orderElementsFile, &orderElements)
 
@@ -41,7 +41,7 @@ func saveOrderElements(username string, orderElements *[]OrderElement) {
 		panic(err)
 	}
 
-	err = ioutil.WriteFile("static/data/order_"+username+".json", orderElementsJson, 0644)
+	err = ioutil.WriteFile(packageTools.GetWD() + "/static/data/order_"+username+".json", orderElementsJson, 0644)
 	if err != nil {
 		panic(err)
 	}
@@ -81,13 +81,9 @@ func DeleteOrderElementByHash(username string, id int) {
 	saveOrderElements(username, &newOrderElements)
 }
 
-// https://stackoverflow.com/questions/37334119/how-to-delete-an-element-from-a-slice-in-golang
-func removeElementByIndex(slice []int, s int) []int {
-	return append(slice[:s], slice[s+1:]...)
-}
 
 func DeleteFullOrder(username string) {
-	err := os.Remove("static/data/order_" + username + ".json")
+	err := os.Remove(packageTools.GetWD() + "/static/data/order_" + username + ".json")
 	if err != nil {
 		panic(err)
 	}
