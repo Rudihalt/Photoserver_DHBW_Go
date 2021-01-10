@@ -16,5 +16,11 @@
 		"path": "/images/81ae82006030991568eba900b963e2d5ec5d81e99caa8a26f79c15968ddba1a3.jpg",
 		"hash": "81ae82006030991568eba900b963e2d5ec5d81e99caa8a26f79c15968ddba1a3",
 		"date": "2017:08:24"
+	},
+	{
+		"name": "file.jpg",
+		"path": "/static/file.jpg",
+		"hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+		"date": "date"
 	}
 ]
