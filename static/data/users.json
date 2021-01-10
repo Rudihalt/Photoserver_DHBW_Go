@@ -4,23 +4,27 @@
 		"username": "testuser",
 		"password": "ee2cf47ef088562fca82f2fb9cc3c02b3ee5d423e73cadea0e4ae371bf7981b6",
 		"salt": "83d544cc",
-		"token": "83d544cc83d544cc83d544cc83d544cc",
-		"Photos": null
+		"token": "83d544cc83d544cc83d544cc83d544cc"
 	},
 	{
 		"id": 850020749,
 		"username": "admin",
 		"password": "eddd6432e6df9e57b9d003b7ead529a10836601b825b2f04b85b83b23c30cada",
 		"salt": "cdb30079",
-		"token": "cdb30079cdb30079cdb30079cdb30079",
-		"Photos": null
+		"token": "cdb30079cdb30079cdb30079cdb30079"
 	},
 	{
 		"id": 733576194,
 		"username": "admin",
 		"password": "94c72b8a75d475a11fdb01137a81d594812cda5f5c9fb1995bff1df69e8e7a3b",
 		"salt": "79f327a6",
-		"token": "de882c87de882c87de882c87de882c87",
-		"Photos": null
+		"token": "de882c87de882c87de882c87de882c87"
+	},
+	{
+		"id": 844103448,
+		"username": "Rudi",
+		"password": "5c36d6c23cc3c5d84ec0168ef98147b131f134a8552139748160aabfeb926c23",
+		"salt": "6d1694e7",
+		"token": "6d1694e7e98d91022abba8d5"
 	}
 ]
